@@ -57,7 +57,7 @@ export class AuthController {
       }
     }
 
-    const frontUrl = process.env.FRONT || 'http://localhost:3001';
+    const frontUrl = process.env.FRONT || 'https://chicken-7mrhs5u3-haduy2k6s-projects.vercel.app';
     const siteRole = role === UserRole.DOCTOR ? 'doctor' : 'patient';
     const redirectUrl = `${frontUrl}/${locale}/${siteRole}`;
     return res.redirect(`${redirectUrl}?token=${accessToken}`);

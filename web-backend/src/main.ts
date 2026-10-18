@@ -11,7 +11,6 @@ async function bootstrap() {
     origin: process.env.FRONT,
     credentials: true, 
   });
-  app.use(cookieParser())
   app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }
   }))
