@@ -1,0 +1,22 @@
+{
+  "name": "Desktop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:backend": "pnpm --dir web-backend start:dev",
+    "dev:frontend": "pnpm --dir web-frontend dev",
+    "dev": "concurrently \"pnpm dev:backend\" \"pnpm dev:frontend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/axios": "^12.0.1",
+    "axios": "^1.20.0"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}

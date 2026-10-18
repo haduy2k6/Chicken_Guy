@@ -1,0 +1,187 @@
+{
+  "Home": {
+    "Menu": {
+      "doctor": "Doctor",
+      "patient": "Patient",
+      "signIn": "Sign in",
+      "signOut": "Sign out",
+      "SignOut": "Sign out"
+    },
+    "Preface": {
+      "s1Left": "Love and listen to yourself every day",
+      "s1LeftDown": "Your health starts with the smallest changes. Let us accompany you in checking and caring for yourself every day.",
+      "checkNow": "Check now"
+    },
+    "Trust": {
+      "accuracy": {
+        "title": "Accuracy",
+        "value": "75.53%"
+      },
+      "doctor": {
+        "title": "Doctors verified",
+        "value": "300+"
+      },
+      "time": {
+        "title": "Cases validated",
+        "value": "12.3k+"
+      },
+      "security": {
+        "title": "Security",
+        "value": "Encrypted & anonymized"
+      },
+      "turnaround": {
+        "title": "Turnaround time",
+        "value": "24–48 hours"
+      }
+    },
+    "Situation": {
+      "badge": "Medical Reality",
+      "slides": {
+        "slide1": {
+          "title": "High Prevalence in Head & Neck Cancers",
+          "desc": "Nasopharyngeal Carcinoma (NPC) is one of the leading malignant cancers of the Head, Neck, and Nasal region in Vietnam and Southeast Asia."
+        },
+        "slide2": {
+          "title": "Subtle Early Symptoms",
+          "desc": "Due to its deep anatomical location within the nasopharynx, early signs are often mistaken for common rhinitis or pharyngitis, making clinical detection difficult."
+        },
+        "slide3": {
+          "value": "> 70%",
+          "title": "Diagnosed at Advanced Stages",
+          "desc": "Over 70% of patients are diagnosed at Stage III or IV, significantly reducing treatment efficacy and overall prognosis."
+        },
+        "slide4": {
+          "value": "80 - 90%",
+          "title": "Early Stage Survival Rate",
+          "desc": "When diagnosed and treated early at Stage I, the 5-year survival rate reaches between 80% and 90%."
+        }
+      }
+    },
+  "Patient": {
+    "Section3": {
+      "actionTitle": "What Patients Should Do",
+      "title": {
+        "present": "Let us be more proactive.",
+        "param1": "Be bold to ask",
+        "param2": "Be open to listen",
+        "param3": "Be proactive to verify"
+      },
+      "value": {
+        "present": "For a healthier community and a brighter tomorrow.",
+        "param1": "Personal data is fully encrypted and two-way anonymized. Only you hold the results.",
+        "param2": "Our AI model is rigorously validated by medical experts. Nevertheless, always evaluate results carefully against real-world symptoms.",
+        "param3": "Regardless of the AI findings, consulting a medical professional in person remains the essential step."
+      }
+    }
+  },
+  "Doctor": {
+    "Section4": {
+      "actionTitle": "What Doctors Should Do",
+      "title": {
+        "present": "Let us stand united together.",
+        "param1": "Unite in companionship",
+        "param2": "Take professional accountability",
+        "param3": "Unite in innovation"
+      },
+      "value": {
+        "present": "For the mission of safeguarding health and upholding patient trust.",
+        "param1": "Empathize, listen, and stand alongside patients throughout their entire diagnostic and treatment journey.",
+        "param2": "Evaluate AI-assisted results using solid medical expertise and take full accountability for every clinical decision.",
+        "param3": "Contribute clinical insights and real-world experience to enhance accuracy and refine the medical AI ecosystem."
+      }
+    }
+  },
+  "Footer": {
+    "brand": {
+      "logoAlt": "Chicken Guy Group Logo",
+      "badge": "Health AI Suite",
+      "mission": "A pioneering digital health project that applies computer vision and artificial intelligence (AI) to support screening and early detection of nasopharyngeal carcinoma (NPC), improving treatment success rates for the community.",
+      "security": "Two-way encryption",
+      "withDoctors": "Working alongside doctors"
+    },
+    "patient": {
+      "title": "Patients",
+      "sendImage": "Submit nasopharyngeal endoscopy images",
+      "warningSigns": "Early warning signs of NPC",
+      "photoGuide": "Photo-taking guide",
+      "anonymity": "Data anonymization commitment"
+    },
+    "doctor": {
+      "title": "Doctors",
+      "caseIntake": "Case intake portal",
+      "aiCompare": "AI analysis comparison",
+      "tnm": "TNM classification (AJCC-8)",
+      "consult": "Inter-hospital consultation"
+    },
+    "support": {
+      "title": "Urgent Support",
+      "hotlineLabel": "Free Consultation Hotline",
+      "hours": "Open daily: 07:00 - 21:00",
+      "location": "Hanoi & Ho Chi Minh City"
+    },
+    "disclaimer": "<strong>Medical disclaimer:</strong> This platform, developed by the Chicken Guy team, is intended to raise awareness and support preliminary triage. Any definitive diagnosis and treatment plan must be determined directly by a qualified ENT / Oncology specialist.",
+    "copyright": "© {year} Chicken Guy Health AI. All rights reserved."
+  }
+
+  },
+  "Patient": {
+    "steps": {
+      "upload": "Images",
+      "info": "Information"
+    },
+    "dropzone": {
+      "ariaLabel": "Upload images",
+      "title": "Drag and drop images here",
+      "titleDragging": "Drop images to upload",
+      "hint": "or click to choose from your device",
+      "limit": "Images only, up to {max}MB each",
+      "notImage": "{name}: not an image",
+      "tooLarge": "{name}: exceeds {max}MB",
+      "selected": "{count, plural, one {# image selected} other {# images selected}}",
+      "clearAll": "Remove all",
+      "remove": "Remove {name}"
+    },
+    "actions": {
+      "next": "Next",
+      "back": "Back",
+      "submit": "Submit",
+      "submitting": "Submitting",
+      "error": "Submission failed. Check your connection and try again."
+    },
+    "form": {
+      "agePlaceholder": "e.g. 45",
+      "sections": {
+        "general": "General information",
+        "risk": "Habits & risk factors",
+        "symptoms": "Current symptoms"
+      },
+      "options": {
+        "yes": "Yes",
+        "no": "No",
+        "male": "Male",
+        "female": "Female",
+        "low": "Low",
+        "moderate": "Moderate",
+        "high": "High"
+      },
+      "fields": {
+        "age": "Age",
+        "gender": "Gender",
+        "tobacco": "Tobacco use",
+        "alcohol": "Alcohol consumption",
+        "betelQuid": "Betel quid use",
+        "hpv": "HPV infection",
+        "sunExposure": "Long-term sun exposure",
+        "oralHygiene": "Poor oral hygiene",
+        "familyHistory": "Family history of cancer",
+        "immune": "Weakened immune system",
+        "diet": "Fruit and vegetable intake",
+        "lesions": "Sores or lesions in the mouth",
+        "bleeding": "Unexplained bleeding",
+        "swallowing": "Difficulty swallowing",
+        "patches": "White or red patches in the mouth"
+      }
+    }
+  }
+
+}

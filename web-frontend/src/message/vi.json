@@ -1,0 +1,188 @@
+{
+  "Home": {
+    "Menu": {
+      "doctor": "Bác sĩ",
+      "patient": "Bệnh nhân",
+      "signIn": "Đăng nhập",
+      "signOut": "Đăng xuất",
+      "SignOut": "Đăng xuất"
+    },
+    "Preface": {
+      "s1Left": "Hãy yêu thương và lắng nghe bản thân mỗi ngày",
+      "s1LeftDown": "Sức khỏe của bạn bắt đầu từ những thay đổi nhỏ nhất. Hãy để chúng tôi đồng hành cùng bạn kiểm tra và chăm sóc bản thân mỗi ngày.",
+      "checkNow": "Kiểm tra ngay."
+    },
+    "Trust": {
+      "accuracy": {
+        "title": "Độ chính xác",
+        "value": "75,53%"
+      },
+      "doctor": {
+        "title": "Bác sĩ xác nhận",
+        "value": "300+"
+      },
+      "time": {
+        "title": "Số ca đã kiểm chứng",
+        "value": "12,3k+"
+      },
+      "security": {
+        "title": "Bảo mật",
+        "value": "Mã hóa & Ẩn danh"
+      },
+      "turnaround": {
+        "title": "Thời gian trả kết quả",
+        "value": "24–48 giờ"
+      }
+    },
+    "Situation": {
+      "badge": "Thực trạng y tế",
+      "slides": {
+        "slide1": {
+          "title": "Bệnh lý nguy hiểm vùng Đầu - Mặt - Cổ",
+          "desc": "Ung thư vòm họng (NPC) là một trong những bệnh lý ác tính có tỷ lệ mắc và tử vong cao hàng đầu tại Việt Nam cũng như khu vực Đông Nam Á."
+        },
+        "slide2": {
+          "title": "Triệu chứng ban đầu mơ hồ",
+          "desc": "Vị trí giải phẫu nằm sâu trong hốc mũi vòm khiến các dấu hiệu sớm rất dễ bị nhầm lẫn với viêm mũi họng thông thường, gây khó khăn cho việc quan sát lâm sàng."
+        },
+        "slide3": {
+          "value": "> 70%",
+          "title": "Phát hiện ở giai đoạn muộn",
+          "desc": "Hơn 70% bệnh nhân chỉ được chẩn đoán khi bệnh đã tiến triển sang giai đoạn III hoặc IV, làm giảm đáng kể khả năng điều trị thành công."
+        },
+        "slide4": {
+          "value": "80 - 90%",
+          "title": "Tỷ lệ sống khi phát hiện sớm",
+          "desc": "Nếu được chẩn đoán và can thiệp ngay từ Giai đoạn I, tỷ lệ sống sau 5 năm của bệnh nhân có thể đạt từ 80% đến 90%."
+        }
+      }
+    },
+  "Patient": {
+    "Section3": {
+      "actionTitle": "Bệnh nhân nên làm gì",
+      "title": {
+        "present": "Chúng ta hãy mạnh dạn hơn.",
+        "param1": "Mạnh dạn hỏi",
+        "param2": "Mạnh dạn lắng nghe",
+        "param3": "Mạnh dạn kiểm chứng"
+      },
+      "value": {
+        "present": "Vì một cộng đồng khỏe mạnh và tương lai tươi sáng hơn.",
+        "param1": "Dữ liệu cá nhân được bảo mật và ẩn danh hóa hai chiều. Chỉ riêng bạn nắm giữ kết quả.",
+        "param2": "Mô hình AI được thẩm định nghiêm ngặt bởi các chuyên gia y tế. Tuy nhiên, hãy luôn đối chiếu cẩn trọng với các biểu hiện thực tế.",
+        "param3": "Dù kết quả chẩn đoán ra sao, việc đến cơ sở y tế để kiểm tra trực tiếp luôn là bước quyết định nhất."
+      }
+    }
+  },
+  "Doctor": {
+    "Section4": {
+      "actionTitle": "Bác sĩ cần làm gì",
+      "title": {
+        "present": "Chúng ta hãy cùng chung lòng hơn.",
+        "param1": "Chung lòng đồng hành",
+        "param2": "Chịu trách nhiệm chuyên môn",
+        "param3": "Chung lòng kiến tạo"
+      },
+      "value": {
+        "present": "Vì sứ mệnh bảo vệ sức khỏe và niềm tin của người bệnh.",
+        "param1": "Thấu hiểu, lắng nghe và luôn sát cánh cùng bệnh nhân trong suốt lộ trình chẩn đoán và điều trị.",
+        "param2": "Đánh giá kết quả hỗ trợ từ AI bằng tri thức y khoa vững vàng, chịu trách nhiệm cho mỗi quyết định lâm sàng.",
+        "param3": "Cùng đóng góp tri thức và kinh nghiệm thực tế để nâng cao độ chính xác, hoàn thiện hệ sinh thái y tế AI."
+      }
+    }
+    },
+
+  "Footer": {
+    "brand": {
+      "logoAlt": "Logo Chicken Guy Group",
+      "badge": "Health AI Suite",
+      "mission": "Dự án y tế số tiên phong ứng dụng thị giác máy tính và trí tuệ nhân tạo (AI) hỗ trợ sàng lọc, phát hiện sớm ung thư vòm họng (NPC) – nâng cao tỷ lệ điều trị thành công vì cộng đồng.",
+      "security": "Mã hóa bảo mật 2 chiều",
+      "withDoctors": "Đồng hành cùng Bác sĩ"
+    },
+    "patient": {
+      "title": "Bệnh Nhân",
+      "sendImage": "Gửi ảnh soi vòm họng",
+      "warningSigns": "Dấu hiệu cảnh báo sớm NPC",
+      "photoGuide": "Hướng dẫn chụp ảnh chuẩn",
+      "anonymity": "Cam kết ẩn danh dữ liệu"
+    },
+    "doctor": {
+      "title": "Bác Sĩ",
+      "caseIntake": "Cổng tiếp nhận ca bệnh",
+      "aiCompare": "Đối chiếu phân tích AI",
+      "tnm": "Phân loại TNM (AJCC-8)",
+      "consult": "Hội chẩn liên viện"
+    },
+    "support": {
+      "title": "Hỗ Trợ Khẩn",
+      "hotlineLabel": "Tổng Đài Tư Vấn Miễn Phí",
+      "hours": "Hoạt động: 07:00 - 21:00 hàng ngày",
+      "location": "Hà Nội & TP. Hồ Chí Minh"
+    },
+    "disclaimer": "<strong>Miễn trừ trách nhiệm y tế:</strong> Nền tảng công nghệ do nhóm Chicken Guy phát triển nhằm mục đích hỗ trợ nâng cao nhận thức và hỗ trợ phân loại sơ bộ. Mọi chẩn đoán xác định và phác đồ can thiệp bắt buộc phải được bác sĩ chuyên khoa Tai Mũi Họng / Ung Bướu kết luận trực tiếp.",
+    "copyright": "© {year} Chicken Guy Health AI. All rights reserved."
+  }
+},
+  "Patient": {
+    "steps": {
+      "upload": "Hình ảnh",
+      "info": "Thông tin"
+    },
+    "dropzone": {
+      "ariaLabel": "Tải hình ảnh lên",
+      "title": "Kéo thả hình ảnh vào đây",
+      "titleDragging": "Thả hình ảnh để tải lên",
+      "hint": "hoặc bấm để chọn từ thiết bị",
+      "limit": "Chỉ nhận hình ảnh, tối đa {max}MB mỗi tệp",
+      "notImage": "{name}: không phải hình ảnh",
+      "tooLarge": "{name}: vượt quá {max}MB",
+      "selected": "Đã chọn {count} hình ảnh",
+      "clearAll": "Xóa tất cả",
+      "remove": "Xóa {name}"
+    },
+    "actions": {
+      "next": "Tiếp theo",
+      "back": "Quay lại",
+      "submit": "Gửi",
+      "submitting": "Đang gửi",
+      "error": "Gửi không thành công. Kiểm tra kết nối rồi thử lại."
+    },
+    "form": {
+      "agePlaceholder": "VD: 45",
+      "sections": {
+        "general": "Thông tin chung",
+        "risk": "Thói quen & yếu tố nguy cơ",
+        "symptoms": "Triệu chứng hiện tại"
+      },
+      "options": {
+        "yes": "Có",
+        "no": "Không",
+        "male": "Nam",
+        "female": "Nữ",
+        "low": "Ít",
+        "moderate": "Vừa",
+        "high": "Nhiều"
+      },
+      "fields": {
+        "age": "Tuổi",
+        "gender": "Giới tính",
+        "tobacco": "Hút thuốc lá",
+        "alcohol": "Uống rượu bia",
+        "betelQuid": "Nhai trầu / cau",
+        "hpv": "Nhiễm HPV",
+        "sunExposure": "Phơi nắng kéo dài",
+        "oralHygiene": "Vệ sinh răng miệng kém",
+        "familyHistory": "Gia đình có người mắc ung thư",
+        "immune": "Suy giảm miễn dịch",
+        "diet": "Ăn rau củ, trái cây",
+        "lesions": "Loét / tổn thương trong miệng",
+        "bleeding": "Chảy máu không rõ nguyên nhân",
+        "swallowing": "Khó nuốt",
+        "patches": "Mảng trắng / đỏ trong miệng"
+      }
+    }
+  }
+  
+  
+}
