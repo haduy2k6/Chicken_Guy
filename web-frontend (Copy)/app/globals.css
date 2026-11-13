@@ -1,0 +1,26 @@
+
+@import "tailwindcss";
+@import "@heroui/styles"; 
+
+@source "../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
+
+@theme {
+  --animate-wave: wave-item 4s ease-in-out infinite;
+  --animate-marquee: marquee-x 40s linear infinite;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes wave-item {
+  0%, 100% { transform: translateY(0)    scale(1);    opacity: 0.6 ; }
+  25%      { transform: translateY(0) scale(1); opacity: 1;   }
+  50%      { transform: translateY(12px) translateZ(13px)     scale(1.12);    opacity: 0.6; }
+  75%      { transform: translateY(0)  scale(1); opacity: 1;   }
+}
+
+@keyframes marquee-x {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-33.3333%,0, 0); }
+}

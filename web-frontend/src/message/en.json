@@ -1,128 +1,225 @@
 {
   "Home": {
     "Menu": {
+      "specialties": "Specialties",
+      "cancer": "Oncology & Head-Neck",
+      "kidney": "Nephrology & Urology",
+      "cardio": "Cardiology",
+      "doctors": "Medical Team",
+      "schedule": "Appointments",
+      "about": "About Us",
       "doctor": "Doctor",
       "patient": "Patient",
-      "signIn": "Sign in",
-      "signOut": "Sign out",
-      "SignOut": "Sign out"
+      "signIn": "Sign In",
+      "signOut": "Sign Out",
+      "SignOut": "Sign Out",
+      "myHistory": "Medical History"
     },
     "Preface": {
-      "s1Left": "Love and listen to yourself every day",
-      "s1LeftDown": "Your health starts with the smallest changes. Let us accompany you in checking and caring for yourself every day.",
-      "checkNow": "Check now"
+      "s1Left": "Listen to and care for yourself every day",
+      "s1LeftDown": "Your health begins with the smallest daily changes. Let our AI platform walk alongside you to screen, check, and safeguard your wellbeing.",
+      "checkNow": "Check Now.",
+      "listenSelf": "Listen To",
+      "everyDay": "Yourself Every Day.",
+      "signUpGoogle": "Sign up with Google"
     },
-    "Trust": {
-      "accuracy": {
-        "title": "Accuracy",
-        "value": "75.53%"
-      },
-      "doctor": {
-        "title": "Doctors verified",
-        "value": "300+"
-      },
-      "time": {
-        "title": "Cases validated",
-        "value": "12.3k+"
-      },
-      "security": {
-        "title": "Security",
-        "value": "Encrypted & anonymized"
-      },
-      "turnaround": {
-        "title": "Turnaround time",
-        "value": "24–48 hours"
-      }
-    },
-    "Situation": {
-      "badge": "Medical Reality",
-      "slides": {
-        "slide1": {
-          "title": "High Prevalence in Head & Neck Cancers",
-          "desc": "Nasopharyngeal Carcinoma (NPC) is one of the leading malignant cancers of the Head, Neck, and Nasal region in Vietnam and Southeast Asia."
+    "HeroSection1": {
+      "headline": "All the work around screening, handled.",
+      "subheadline": "From AI-powered nasopharyngeal endoscopy screening to automated renal risk evaluation and specialist triage, safeguard your health with precision and peace of mind.",
+      "signUpGoogle": "Sign up with Google",
+      "signUpMicrosoft": "Sign up with Microsoft",
+      "subLink": "Sign up with email • Free initial screening",
+      "features": {
+        "speed": {
+          "badge": "Diagnostic Speed",
+          "title": "Sub-3-second AI Diagnostic Analysis",
+          "desc": "High-sensitivity computer vision models automatically analyze endoscopy frames for mucosal lesions and immediate risk indicators.",
+          "learnMore": "Explore technology →",
+          "mockName": "AI Screening Engine",
+          "mockRole": "Automated vision analysis"
         },
-        "slide2": {
-          "title": "Subtle Early Symptoms",
-          "desc": "Due to its deep anatomical location within the nasopharynx, early signs are often mistaken for common rhinitis or pharyngitis, making clinical detection difficult."
+        "assistant": {
+          "badge": "Callie Beta",
+          "title": "Introducing your 24/7 AI health screening assistant",
+          "desc": "Add Callie to your healthcare routine to evaluate clinical symptoms and biochemical panels without switching tools or sacrificing control.",
+          "learnMore": "Learn more →",
+          "mockName": "Dominic Mills",
+          "mockRole": "To: Callie, TM Triaging"
         },
-        "slide3": {
-          "value": "> 70%",
-          "title": "Diagnosed at Advanced Stages",
-          "desc": "Over 70% of patients are diagnosed at Stage III or IV, significantly reducing treatment efficacy and overall prognosis."
+        "records": {
+          "badge": "Digital Records",
+          "title": "Automated eGFR Tracking & Record Triaging",
+          "desc": "Unified longitudinal tracking for renal filtration trends and clinical history with multi-department synchronization.",
+          "learnMore": "View sample records →",
+          "mockName": "Electronic Health Record",
+          "mockRole": "Multi-specialty sync"
         },
-        "slide4": {
-          "value": "80 - 90%",
-          "title": "Early Stage Survival Rate",
-          "desc": "When diagnosed and treated early at Stage I, the 5-year survival rate reaches between 80% and 90%."
+        "security": {
+          "badge": "HIPAA Aligned",
+          "title": "Multi-tier Privacy & Strict Data Anonymization",
+          "desc": "Your medical imagery and demographic records are secured with end-to-end 2-way encryption following global healthcare compliance.",
+          "learnMore": "Learn about security →",
+          "mockName": "Security Architecture",
+          "mockRole": "AES-256 & Anonymized"
         }
       }
     },
-  "Patient": {
-    "Section3": {
-      "actionTitle": "What Patients Should Do",
-      "title": {
-        "present": "Let us be more proactive.",
-        "param1": "Be bold to ask",
-        "param2": "Be open to listen",
-        "param3": "Be proactive to verify"
+    "Trust": {
+      "accuracy": {
+        "title": "Model Accuracy",
+        "value": "75.53%"
       },
-      "value": {
-        "present": "For a healthier community and a brighter tomorrow.",
-        "param1": "Personal data is fully encrypted and two-way anonymized. Only you hold the results.",
-        "param2": "Our AI model is rigorously validated by medical experts. Nevertheless, always evaluate results carefully against real-world symptoms.",
-        "param3": "Regardless of the AI findings, consulting a medical professional in person remains the essential step."
-      }
-    }
-  },
-  "Doctor": {
-    "Section4": {
-      "actionTitle": "What Doctors Should Do",
-      "title": {
-        "present": "Let us stand united together.",
-        "param1": "Unite in companionship",
-        "param2": "Take professional accountability",
-        "param3": "Unite in innovation"
+      "doctor": {
+        "title": "Physician Confirmed",
+        "value": "300+"
       },
-      "value": {
-        "present": "For the mission of safeguarding health and upholding patient trust.",
-        "param1": "Empathize, listen, and stand alongside patients throughout their entire diagnostic and treatment journey.",
-        "param2": "Evaluate AI-assisted results using solid medical expertise and take full accountability for every clinical decision.",
-        "param3": "Contribute clinical insights and real-world experience to enhance accuracy and refine the medical AI ecosystem."
+      "time": {
+        "title": "Verified Cases",
+        "value": "12.3k+"
+      },
+      "security": {
+        "title": "Data Security",
+        "value": "Encrypted & Anonymous"
+      },
+      "turnaround": {
+        "title": "Turnaround Time",
+        "value": "24–48 hours"
       }
+    },
+    "Oncology": {
+      "badge": "Oncology & ENT Department",
+      "title": "Early Screening & Detection of Nasopharyngeal Cancer",
+      "whoReport": "According to the latest WHO reports, nasopharyngeal carcinoma (NPC) ranks among the highest incident malignancies in Vietnam and Southeast Asia, yet over 70% of cases are diagnosed at late stages.",
+      "partnership": "Our hospital collaborates with health authorities to deploy deep computer-vision AI, empowering clinicians and patients with high-sensitivity preliminary screening from endoscopic images.",
+      "ctaButton": "Start Screening Now",
+      "aiReady": "AI Engine Online 24/7",
+      "modelTitle": "NPC-Vision AI Model",
+      "modelSubtitle": "Validated by Clinical Advisory Board",
+      "feature1": "Real-time inference time",
+      "feature2": "Staging aligned with AJCC-8",
+      "noticeText": "Complimentary initial screening for the community",
+      "joinScreening": "Join Screening →"
+    },
+    "Kidney": {
+      "badge": "Nephrology & Urology Department",
+      "title": "Comprehensive Kidney Health Screening & Care",
+      "subtitle": "Harnessing clinical AI to evaluate risks of Chronic Kidney Disease, nephrolithiasis, and nephrotic syndrome from biomarker panels and clinical presentations.",
+      "cards": {
+        "ckd": {
+          "name": "Chronic Kidney Disease",
+          "tag": "Stages I - V",
+          "shortDesc": "Gradual decline in glomerular filtration rate (eGFR), progressing quietly over years.",
+          "fullDesc": "Chronic Kidney Disease (CKD) rarely presents overt symptoms during initial stages. Our clinical AI model analyzes serum creatinine, eGFR, and proteinuria to detect early renal impairment.",
+          "feature1": "Risk stratification across 5 KDOQI clinical stages",
+          "feature2": "Early warning for secondary anemia and renal hypertension",
+          "feature3": "Automated dietary recommendations for renal protection",
+          "mockMessage": "Male patient, 48 years old. eGFR: 62 mL/min/1.73m² (Mild CKD Stage II). Maintain target BP < 130/80 mmHg and schedule 3-month follow-up."
+        },
+        "stone": {
+          "name": "Kidney Stones",
+          "tag": "Urolithiasis",
+          "shortDesc": "Mineral crystal deposits causing acute renal colic and urinary tract obstruction.",
+          "fullDesc": "Kidney stones develop from mineral metabolic imbalances or chronic dehydration. AI evaluates recurrence likelihood based on 24-hour urinalysis and lifestyle history.",
+          "feature1": "Early identification of renal colic and microscopic hematuria",
+          "feature2": "Calculus size assessment and hydronephrosis grading",
+          "feature3": "Lithotripsy eligibility and medical expulsive therapy guidance",
+          "mockMessage": "Right lower pole calyx stone 6mm, no hydronephrosis. Recommend fluid intake > 2.5L/day, sodium and oxalate restriction."
+        },
+        "nephrotic": {
+          "name": "Nephrotic Syndrome",
+          "tag": "Podocyte Pathology",
+          "shortDesc": "Massive proteinuria leading to generalized edema and hypoalbuminemia.",
+          "fullDesc": "Nephrotic syndrome occurs when glomerular podocytes are severely damaged, causing massive protein leakage. Early differential diagnosis between primary and secondary etiology is crucial.",
+          "feature1": "Continuous tracking of 24h proteinuria and serum albumin",
+          "feature2": "Venous thromboembolism and infection risk surveillance",
+          "feature3": "Real-time steroid responsiveness and remission monitoring",
+          "mockMessage": "Proteinuria 3.8g/24h, Serum Albumin 24g/L. Findings consistent with initial nephrotic syndrome. Forwarded for nephrology grand rounds."
+        },
+        "dialysis": {
+          "name": "Dialysis & Transplant",
+          "tag": "End-Stage Renal (ESRD)",
+          "shortDesc": "Renal replacement modalities sustaining long-term survival in advanced failure.",
+          "fullDesc": "When residual renal capacity drops below 15%, patients require planned vascular access for hemodialysis, peritoneal dialysis, or evaluation for living/deceased-donor renal transplantation.",
+          "feature1": "Timely vascular access planning (AVF creation) prior to dialysis",
+          "feature2": "Dialysis adequacy optimization and dry-weight management",
+          "feature3": "Integrated coordination with national organ donor registries",
+          "mockMessage": "Arteriovenous fistula (AVF) surgical referral requested for left forearm. Conservative dialytic regimen prepared with potassium regulation."
+        }
+      }
+    },
+    "Cardiology": {
+      "badge": "Cardiology & Vascular Department",
+      "title": "Cardiovascular Risk Screening & ECG Rhythm Analysis",
+      "subtitle": "Advanced AI models evaluate risks of coronary artery disease, myocardial infarction, arrhythmias, and heart failure from blood pressure, lipid panels, and ECG waveform telemetry.",
+      "features": {
+        "cad": {
+          "title": "Coronary Artery Disease & Ischemia",
+          "desc": "Detect arterial stenosis risks, early angina warning signs, and acute myocardial infarction using multi-marker biochemical telemetry and exertional dyspnea tracking."
+        },
+        "arrhythmia": {
+          "title": "Arrhythmia & Atrial Fibrillation",
+          "desc": "Deep learning models automatically segment P-QRS-T waves on electrocardiograms (ECG), identifying atrial fibrillation, premature ventricular contractions, and stroke risk."
+        },
+        "hypertension": {
+          "title": "Hypertension & Heart Failure Progression",
+          "desc": "Longitudinal tracking of systolic/diastolic blood pressure fluctuations, estimating ejection fraction (EF), and predicting left ventricular hypertrophy."
+        }
+      },
+      "ctaButton": "Screen Cardiovascular Health",
+      "stats": {
+        "cases": "45,000+ ECG Traces Analyzed",
+        "speed": "Sub-2-second Diagnostic Output",
+        "verified": "Board-Certified Cardiologist Reviewed"
+      }
+    },
+    "Doctor": {
+      "Section4": {
+        "actionTitle": "Clinical Faculty & Medical Board",
+        "title": {
+          "present": "United for Community Health & Patient Trust",
+          "param1": "Multidisciplinary Consultation",
+          "param2": "Medical Accountability",
+          "param3": "International Clinical AI Standards"
+        },
+        "value": {
+          "present": "Bridging deep clinical expertise of leading specialists with cutting-edge medical AI.",
+          "param1": "Advisory boards across ENT, Oncology, and Nephrology collaboratively examine complex patient profiles.",
+          "param2": "Every diagnosis, recommendation, and clinical pathway is verified and signed off by certified physicians.",
+          "param3": "Medical data and AI models are continuously evaluated against stringent international healthcare standards."
+        }
+      }
+    },
+    "Footer": {
+      "brand": {
+        "logoAlt": "Chicken Guy Group Logo",
+        "badge": "Health AI Suite",
+        "mission": "Pioneering digital healthcare platform applying artificial intelligence to assist in the early screening of nasopharyngeal cancer and chronic kidney disease for community wellness.",
+        "security": "2-Way End-to-End Encryption",
+        "withDoctors": "In Partnership with Clinicians"
+      },
+      "patient": {
+        "title": "Patients",
+        "sendImage": "Upload Endoscopy Image",
+        "warningSigns": "Early Warning Symptoms",
+        "photoGuide": "Image Capture Guide",
+        "anonymity": "Strict Data Anonymization"
+      },
+      "doctor": {
+        "title": "Doctors",
+        "caseIntake": "Patient Intake Portal",
+        "aiCompare": "AI Diagnostic Review",
+        "tnm": "TNM Staging (AJCC-8)",
+        "consult": "Inter-hospital Consultation"
+      },
+      "support": {
+        "title": "Emergency Support",
+        "hotlineLabel": "Toll-Free Health Hotline",
+        "hours": "Hours: 07:00 - 21:00 Daily",
+        "location": "Hanoi & Ho Chi Minh City"
+      },
+      "disclaimer": "<strong>Medical Disclaimer:</strong> The Chicken Guy Health AI platform is intended for awareness enhancement and preliminary triage support. Definitive diagnosis and treatment protocols must always be directly determined by qualified ENT, Oncology, or Nephrology specialists.",
+      "copyright": "© {year} Chicken Guy Health AI. All rights reserved."
     }
-  },
-  "Footer": {
-    "brand": {
-      "logoAlt": "Chicken Guy Group Logo",
-      "badge": "Health AI Suite",
-      "mission": "A pioneering digital health project that applies computer vision and artificial intelligence (AI) to support screening and early detection of nasopharyngeal carcinoma (NPC), improving treatment success rates for the community.",
-      "security": "Two-way encryption",
-      "withDoctors": "Working alongside doctors"
-    },
-    "patient": {
-      "title": "Patients",
-      "sendImage": "Submit nasopharyngeal endoscopy images",
-      "warningSigns": "Early warning signs of NPC",
-      "photoGuide": "Photo-taking guide",
-      "anonymity": "Data anonymization commitment"
-    },
-    "doctor": {
-      "title": "Doctors",
-      "caseIntake": "Case intake portal",
-      "aiCompare": "AI analysis comparison",
-      "tnm": "TNM classification (AJCC-8)",
-      "consult": "Inter-hospital consultation"
-    },
-    "support": {
-      "title": "Urgent Support",
-      "hotlineLabel": "Free Consultation Hotline",
-      "hours": "Open daily: 07:00 - 21:00",
-      "location": "Hanoi & Ho Chi Minh City"
-    },
-    "disclaimer": "<strong>Medical disclaimer:</strong> This platform, developed by the Chicken Guy team, is intended to raise awareness and support preliminary triage. Any definitive diagnosis and treatment plan must be determined directly by a qualified ENT / Oncology specialist.",
-    "copyright": "© {year} Chicken Guy Health AI. All rights reserved."
-  }
-
   },
   "Patient": {
     "steps": {
@@ -131,29 +228,29 @@
     },
     "dropzone": {
       "ariaLabel": "Upload images",
-      "title": "Drag and drop images here",
+      "title": "Drag & drop images here",
       "titleDragging": "Drop images to upload",
-      "hint": "or click to choose from your device",
-      "limit": "Images only, up to {max}MB each",
-      "notImage": "{name}: not an image",
-      "tooLarge": "{name}: exceeds {max}MB",
-      "selected": "{count, plural, one {# image selected} other {# images selected}}",
-      "clearAll": "Remove all",
+      "hint": "or click to browse from device",
+      "limit": "Images only, maximum {max}MB per file",
+      "notImage": "{name}: not a valid image",
+      "tooLarge": "{name}: exceeds {max}MB limit",
+      "selected": "Selected {count} images",
+      "clearAll": "Clear All",
       "remove": "Remove {name}"
     },
     "actions": {
       "next": "Next",
       "back": "Back",
       "submit": "Submit",
-      "submitting": "Submitting",
-      "error": "Submission failed. Check your connection and try again."
+      "submitting": "Submitting...",
+      "error": "Submission failed. Please check your connection and retry."
     },
     "form": {
       "agePlaceholder": "e.g. 45",
       "sections": {
-        "general": "General information",
-        "risk": "Habits & risk factors",
-        "symptoms": "Current symptoms"
+        "general": "General Demographics",
+        "risk": "Lifestyle & Risk Factors",
+        "symptoms": "Current Symptoms"
       },
       "options": {
         "yes": "Yes",
@@ -167,21 +264,20 @@
       "fields": {
         "age": "Age",
         "gender": "Gender",
-        "tobacco": "Tobacco use",
-        "alcohol": "Alcohol consumption",
-        "betelQuid": "Betel quid use",
-        "hpv": "HPV infection",
-        "sunExposure": "Long-term sun exposure",
-        "oralHygiene": "Poor oral hygiene",
-        "familyHistory": "Family history of cancer",
-        "immune": "Weakened immune system",
-        "diet": "Fruit and vegetable intake",
-        "lesions": "Sores or lesions in the mouth",
-        "bleeding": "Unexplained bleeding",
-        "swallowing": "Difficulty swallowing",
-        "patches": "White or red patches in the mouth"
+        "tobacco": "Tobacco Use",
+        "alcohol": "Alcohol Consumption",
+        "betelQuid": "Betel Quid Use",
+        "hpv": "HPV Infection",
+        "sunExposure": "Chronic Sun Exposure",
+        "oralHygiene": "Poor Oral Hygiene",
+        "familyHistory": "Family History of Cancer",
+        "immune": "Compromised Immune System",
+        "diet": "Diet (Fruits & Vegetables Intake)",
+        "lesions": "Oral Lesions",
+        "bleeding": "Unexplained Bleeding",
+        "swallowing": "Difficulty Swallowing",
+        "patches": "White or Red Patches in Mouth"
       }
     }
   }
-
 }

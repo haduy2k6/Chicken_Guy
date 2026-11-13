@@ -1,7 +1,9 @@
-export default function DoctorPage(){
+import { DoctorWorkspace } from "@/src/features/doctor/components/DoctorWorkspace.client";
 
-  return (<>
-  
-    <p>địt cụ mày nữa, hỏi con cặc hỏi lắm</p>
-  </>)
+export default function DoctorPage() {
+  return (
+    <main className="min-h-screen bg-linear-to-b from-[#FFFDFB] via-[#FFF7F2] to-[#FFF0E8] px-4 pb-16 pt-24 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+      <DoctorWorkspace />
+    </main>
+  );
 }

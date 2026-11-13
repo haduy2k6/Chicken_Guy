@@ -1,16 +1,68 @@
 {
   "Home": {
     "Menu": {
+      "specialties": "Chuyên khoa",
+      "cancer": "Ung bướu & Vòm họng",
+      "kidney": "Thận - Tiết niệu",
+      "cardio": "Tim mạch",
+      "doctors": "Đội ngũ bác sĩ",
+      "schedule": "Lịch khám",
+      "about": "Về chúng tôi",
       "doctor": "Bác sĩ",
       "patient": "Bệnh nhân",
       "signIn": "Đăng nhập",
       "signOut": "Đăng xuất",
-      "SignOut": "Đăng xuất"
+      "SignOut": "Đăng xuất",
+      "myHistory": "Lịch sử khám"
     },
     "Preface": {
       "s1Left": "Hãy yêu thương và lắng nghe bản thân mỗi ngày",
       "s1LeftDown": "Sức khỏe của bạn bắt đầu từ những thay đổi nhỏ nhất. Hãy để chúng tôi đồng hành cùng bạn kiểm tra và chăm sóc bản thân mỗi ngày.",
-      "checkNow": "Kiểm tra ngay."
+      "checkNow": "Kiểm tra ngay.",
+      "listenSelf": "Hãy lắng nghe",
+      "everyDay": "Bản thân mỗi ngày.",
+      "signUpGoogle": "Đăng ký với Google"
+    },
+    "HeroSection1": {
+      "headline": "Tất cả quy trình tầm soát sức khỏe, hoàn toàn tự động.",
+      "subheadline": "Từ phân tích hình ảnh nội soi vòm họng bằng AI đến đánh giá nguy cơ bệnh thận và kết nối bác sĩ chuyên khoa, bảo vệ sức khỏe của bạn với độ chính xác cao và tối ưu thời gian.",
+      "signUpGoogle": "Sign up with Google",
+      "signUpMicrosoft": "Sign up with Microsoft",
+      "subLink": "Đăng ký nhanh với email • Miễn phí sàng lọc ban đầu",
+      "features": {
+        "speed": {
+          "badge": "Tốc độ chẩn đoán",
+          "title": "Phân tích hình ảnh nội soi dưới 3 giây",
+          "desc": "Mô hình thị giác máy tính tự động quét các vùng niêm mạc bất thường trên ảnh soi vòm họng và trả về mức độ cảnh báo nguy cơ ngay lập tức.",
+          "learnMore": "Khám phá công nghệ →",
+          "mockName": "AI Screening Engine",
+          "mockRole": "Quét ảnh vòm họng tự động"
+        },
+        "assistant": {
+          "badge": "Trợ lý 24/7",
+          "title": "Trợ lý AI sàng lọc & theo dõi sức khỏe 24/7",
+          "desc": "Đồng hành liên tục cùng người bệnh, tự động đối chiếu các triệu chứng lâm sàng và chỉ số sinh hóa máu mà không cần thao tác thủ công phức tạp.",
+          "learnMore": "Bắt đầu sàng lọc →",
+          "mockName": "Dominic Mills",
+          "mockRole": "To: Callie, TM Triaging"
+        },
+        "records": {
+          "badge": "Bệnh án số",
+          "title": "Tự động phân loại hồ sơ & chỉ số eGFR",
+          "desc": "Tích hợp biểu đồ theo dõi chức năng lọc cầu thận và tiền sử bệnh lý theo thời gian thực, đồng bộ liền mạch giữa bệnh nhân và phòng khám.",
+          "learnMore": "Xem hồ sơ mẫu →",
+          "mockName": "Bệnh án điện tử",
+          "mockRole": "Đồng bộ đa chuyên khoa"
+        },
+        "security": {
+          "badge": "Bảo mật HIPAA",
+          "title": "Bảo mật đa tầng & Ẩn danh hóa dữ liệu",
+          "desc": "Dữ liệu hình ảnh và thông tin bệnh nhân được mã hóa đầu cuối 2 chiều, phân vùng bảo mật tuyệt đối và tuân thủ các quy chuẩn y tế nghiêm ngặt.",
+          "learnMore": "Tìm hiểu bảo mật →",
+          "mockName": "Cơ chế bảo mật",
+          "mockRole": "Mã hóa AES-256 & Ẩn danh"
+        }
+      }
     },
     "Trust": {
       "accuracy": {
@@ -34,96 +86,141 @@
         "value": "24–48 giờ"
       }
     },
-    "Situation": {
-      "badge": "Thực trạng y tế",
-      "slides": {
-        "slide1": {
-          "title": "Bệnh lý nguy hiểm vùng Đầu - Mặt - Cổ",
-          "desc": "Ung thư vòm họng (NPC) là một trong những bệnh lý ác tính có tỷ lệ mắc và tử vong cao hàng đầu tại Việt Nam cũng như khu vực Đông Nam Á."
+    "Oncology": {
+      "badge": "Chuyên khoa Ung Bướu & Tai Mũi Họng",
+      "title": "Tầm soát & Phát hiện sớm Ung thư Vòm họng",
+      "whoReport": "Theo các báo cáo mới nhất của WHO, ung thư vòm họng (NPC) là một trong những bệnh lý ác tính chiếm tỷ lệ cao hàng đầu tại Việt Nam và Đông Nam Á nhưng thường bị phát hiện ở giai đoạn muộn.",
+      "partnership": "Bệnh viện phối hợp cùng Bộ Y tế triển khai rà soát, ứng dụng mô hình AI thị giác máy tính hỗ trợ phát hiện sớm tổn thương vòm họng qua ảnh soi với độ nhạy cao.",
+      "ctaButton": "Chẩn đoán ngay",
+      "aiReady": "Hệ thống AI sẵn sàng 24/7",
+      "modelTitle": "Mô hình NPC-Vision AI",
+      "modelSubtitle": "Thẩm định bởi Hội đồng chuyên môn",
+      "feature1": "Thời gian phân tích ảnh tức thì",
+      "feature2": "Phân độ theo chuẩn AJCC-8",
+      "noticeText": "Miễn phí sàng lọc sơ bộ đợt 1 cho cộng đồng",
+      "joinScreening": "Tham gia ngay →"
+    },
+    "Kidney": {
+      "badge": "Chuyên khoa Thận - Tiết Niệu",
+      "title": "Tầm Soát & Chăm Sóc Sức Khỏe Thận Toàn Diện",
+      "subtitle": "Ứng dụng AI phân tích nguy cơ suy thận, sỏi thận và hội chứng thận hư từ các chỉ số xét nghiệm sinh hóa và triệu chứng lâm sàng.",
+      "cards": {
+        "ckd": {
+          "name": "Suy thận mạn",
+          "tag": "Giai đoạn I - V",
+          "shortDesc": "Suy giảm dần mức lọc cầu thận (eGFR), tiến triển thầm lặng qua nhiều năm.",
+          "fullDesc": "Suy thận mạn tính (CKD) thường không có triệu chứng rõ rệt ở giai đoạn đầu. Hệ thống AI phân tích tự động chỉ số Creatinine huyết thanh, eGFR và Protein niệu để phát hiện sớm suy giảm chức năng lọc máu.",
+          "feature1": "Phân tầng nguy cơ theo 5 giai đoạn chuẩn KDOQI",
+          "feature2": "Cảnh báo sớm nguy cơ thiếu máu và tăng huyết áp thứ phát",
+          "feature3": "Tự động gợi ý chế độ ăn giảm muối & đạm bảo vệ thận",
+          "mockMessage": "Bệnh nhân nam, 48 tuổi. eGFR: 62 mL/phút/1.73m² (CKD Giai đoạn II nhẹ). Khuyến nghị duy trì huyết áp < 130/80 mmHg và tái khám sau 3 tháng."
         },
-        "slide2": {
-          "title": "Triệu chứng ban đầu mơ hồ",
-          "desc": "Vị trí giải phẫu nằm sâu trong hốc mũi vòm khiến các dấu hiệu sớm rất dễ bị nhầm lẫn với viêm mũi họng thông thường, gây khó khăn cho việc quan sát lâm sàng."
+        "stone": {
+          "name": "Sỏi thận",
+          "tag": "Sỏi & Tiết niệu",
+          "shortDesc": "Lắng đọng tinh thể khoáng chất gây đau quặn thận và ứ nước đường tiểu.",
+          "fullDesc": "Sỏi thận hình thành do rối loạn chuyển hóa khoáng chất hoặc lượng nước uống không đủ. AI hỗ trợ dự báo nguy cơ sỏi tái phát dựa trên phân tích thành phần nước tiểu và tiền sử sinh hoạt.",
+          "feature1": "Nhận diện sớm cơn đau quặn thận và tiểu máu vi thể",
+          "feature2": "Đánh giá kích thước sỏi và mức độ ứ nước đài bể thận",
+          "feature3": "Gợi ý phác đồ tán sỏi ngoài cơ thể hoặc điều trị nội khoa",
+          "mockMessage": "Phát hiện sỏi đài dưới thận phải 6mm, chưa ứ nước. Khuyến cáo tăng lượng nước uống > 2.5L/ngày, hạn chế muối và oxalate."
         },
-        "slide3": {
-          "value": "> 70%",
-          "title": "Phát hiện ở giai đoạn muộn",
-          "desc": "Hơn 70% bệnh nhân chỉ được chẩn đoán khi bệnh đã tiến triển sang giai đoạn III hoặc IV, làm giảm đáng kể khả năng điều trị thành công."
+        "nephrotic": {
+          "name": "Hội chứng thận hư",
+          "tag": "Tổn thương màng đáy",
+          "shortDesc": "Mất đạm ồ ạt qua nước tiểu, gây phù toàn thân và giảm Albumin máu.",
+          "fullDesc": "Hội chứng thận hư xảy ra khi màng lọc cầu thận bị tổn thương nặng, dẫn đến thoát protein ồ ạt vào nước tiểu. Cần chẩn đoán phân biệt sớm để áp dụng liệu pháp ức chế miễn dịch phù hợp.",
+          "feature1": "Theo dõi định lượng Protein niệu 24h và Albumin máu",
+          "feature2": "Kiểm soát nguy cơ huyết khối tĩnh mạch và nhiễm trùng",
+          "feature3": "Theo dõi đáp ứng điều trị Corticoid theo thời gian thực",
+          "mockMessage": "Protein niệu 3.8g/24h, Albumin máu 24g/L. Kết quả phù hợp hội chứng thận hư lần đầu. Đã chuyển hồ sơ hội chẩn chuyên khoa thận."
         },
-        "slide4": {
-          "value": "80 - 90%",
-          "title": "Tỷ lệ sống khi phát hiện sớm",
-          "desc": "Nếu được chẩn đoán và can thiệp ngay từ Giai đoạn I, tỷ lệ sống sau 5 năm của bệnh nhân có thể đạt từ 80% đến 90%."
+        "dialysis": {
+          "name": "Lọc máu & Ghép thận",
+          "tag": "Giai đoạn cuối (ESRD)",
+          "shortDesc": "Phương pháp thay thế thận suy giai đoạn cuối giúp duy trì sự sống lâu dài.",
+          "fullDesc": "Khi chức năng thận suy giảm dưới 15%, bệnh nhân cần được chuẩn bị tiếp cận lọc máu chu kỳ (chạy thận nhân tạo), lọc màng bụng hoặc đánh giá khả năng ghép thận đồng ghép.",
+          "feature1": "Lập kế hoạch chuẩn bị đường vào mạch máu (AVF) trước lọc",
+          "feature2": "Tối ưu hóa liều lọc máu và kiểm soát cân nặng khô",
+          "feature3": "Hỗ trợ kết nối ngân hàng người hiến tạng & ghép thận",
+          "mockMessage": "Hội chẩn chỉ định tạo cầu thông động tĩnh mạch AVF cẳng tay trái. Chuẩn bị phác đồ lọc máu bảo tồn kết hợp kiểm soát Kali huyết thanh."
         }
       }
     },
-  "Patient": {
-    "Section3": {
-      "actionTitle": "Bệnh nhân nên làm gì",
-      "title": {
-        "present": "Chúng ta hãy mạnh dạn hơn.",
-        "param1": "Mạnh dạn hỏi",
-        "param2": "Mạnh dạn lắng nghe",
-        "param3": "Mạnh dạn kiểm chứng"
+    "Cardiology": {
+      "badge": "Chuyên khoa Tim Mạch & Huyết Học",
+      "title": "Tầm Soát Nguy Cơ Tim Mạch & Phân Tích Điện Tâm Đồ (ECG)",
+      "subtitle": "Hệ thống AI tiên tiến phân tích nguy cơ nhồi máu cơ tim, xơ vữa động mạch, rối loạn nhịp và bệnh van tim từ các thông số huyết áp, lipid máu và biểu đồ ECG.",
+      "features": {
+        "cad": {
+          "title": "Bệnh Động Mạch Vành & Thiếu Máu Cơ Tim",
+          "desc": "Tầm soát nguy cơ hẹp tắc mạch vành, cảnh báo sớm cơn đau thắt ngực và nhồi máu cơ tim cấp qua phân tích chỉ số sinh hóa và triệu chứng khó thở khi gắng sức."
+        },
+        "arrhythmia": {
+          "title": "Rối Loạn Nhịp Tim & Rung Nhĩ",
+          "desc": "Mô hình học sâu quét tự động các dạng sóng P-QRS-T trên điện tâm đồ (ECG), phát hiện chính xác rung nhĩ, ngoại tâm thu và nguy cơ đột quỵ do huyết khối."
+        },
+        "hypertension": {
+          "title": "Tăng Huyết Áp & Suy Tim Tiến Triển",
+          "desc": "Theo dõi biến thiên huyết áp tâm thu/tâm trương, đánh giá phân suất tống máu (EF) và dự báo nguy cơ phì đại tâm thất trái."
+        }
       },
-      "value": {
-        "present": "Vì một cộng đồng khỏe mạnh và tương lai tươi sáng hơn.",
-        "param1": "Dữ liệu cá nhân được bảo mật và ẩn danh hóa hai chiều. Chỉ riêng bạn nắm giữ kết quả.",
-        "param2": "Mô hình AI được thẩm định nghiêm ngặt bởi các chuyên gia y tế. Tuy nhiên, hãy luôn đối chiếu cẩn trọng với các biểu hiện thực tế.",
-        "param3": "Dù kết quả chẩn đoán ra sao, việc đến cơ sở y tế để kiểm tra trực tiếp luôn là bước quyết định nhất."
+      "ctaButton": "Sàng lọc tim mạch ngay",
+      "stats": {
+        "cases": "45.000+ Ca phân tích ECG",
+        "speed": "Dưới 2 giây trả kết quả",
+        "verified": "Bác sĩ Tim Mạch thẩm định"
       }
+    },
+    "Doctor": {
+      "Section4": {
+        "actionTitle": "Đội ngũ Chuyên gia & Hội đồng Chuyên môn",
+        "title": {
+          "present": "Chung lòng bảo vệ sức khỏe cộng đồng",
+          "param1": "Hội chẩn đa chuyên khoa",
+          "param2": "Chịu trách nhiệm y khoa",
+          "param3": "Ứng dụng AI chuẩn quốc tế"
+        },
+        "value": {
+          "present": "Sự kết hợp giữa chuyên môn sâu sắc của các bác sĩ đầu ngành và công nghệ AI tiên tiến.",
+          "param1": "Hội đồng y bác sĩ Tai Mũi Họng, Ung bướu và Thận Tiết niệu cùng tham gia đánh giá các ca bệnh phức tạp.",
+          "param2": "Mọi phác đồ can thiệp và chỉ định lâm sàng đều được bác sĩ chuyên khoa kiểm duyệt và ký xác nhận chính thức.",
+          "param3": "Dữ liệu và mô hình AI được kiểm định liên tục theo các tiêu chuẩn y tế quốc tế khắt khe."
+        }
+      }
+    },
+    "Footer": {
+      "brand": {
+        "logoAlt": "Logo Chicken Guy Group",
+        "badge": "Health AI Suite",
+        "mission": "Hệ thống y tế số tiên phong ứng dụng trí tuệ nhân tạo (AI) hỗ trợ sàng lọc, phát hiện sớm ung thư vòm họng và bệnh lý thận mạn tính vì sức khỏe cộng đồng.",
+        "security": "Mã hóa bảo mật 2 chiều",
+        "withDoctors": "Đồng hành cùng Bác sĩ"
+      },
+      "patient": {
+        "title": "Bệnh Nhân",
+        "sendImage": "Gửi ảnh soi vòm họng",
+        "warningSigns": "Dấu hiệu cảnh báo sớm",
+        "photoGuide": "Hướng dẫn chụp ảnh chuẩn",
+        "anonymity": "Cam kết ẩn danh dữ liệu"
+      },
+      "doctor": {
+        "title": "Bác Sĩ",
+        "caseIntake": "Cổng tiếp nhận ca bệnh",
+        "aiCompare": "Đối chiếu phân tích AI",
+        "tnm": "Phân loại TNM (AJCC-8)",
+        "consult": "Hội chẩn liên viện"
+      },
+      "support": {
+        "title": "Hỗ Trợ Khẩn",
+        "hotlineLabel": "Tổng Đài Tư Vấn Miễn Phí",
+        "hours": "Hoạt động: 07:00 - 21:00 hàng ngày",
+        "location": "Hà Nội & TP. Hồ Chí Minh"
+      },
+      "disclaimer": "<strong>Miễn trừ trách nhiệm y tế:</strong> Nền tảng công nghệ do nhóm Chicken Guy phát triển nhằm mục đích hỗ trợ nâng cao nhận thức và hỗ trợ phân loại sơ bộ. Mọi chẩn đoán xác định và phác đồ can thiệp bắt buộc phải được bác sĩ chuyên khoa Tai Mũi Họng / Ung Bướu / Thận kết luận trực tiếp.",
+      "copyright": "© {year} Chicken Guy Health AI. All rights reserved."
     }
   },
-  "Doctor": {
-    "Section4": {
-      "actionTitle": "Bác sĩ cần làm gì",
-      "title": {
-        "present": "Chúng ta hãy cùng chung lòng hơn.",
-        "param1": "Chung lòng đồng hành",
-        "param2": "Chịu trách nhiệm chuyên môn",
-        "param3": "Chung lòng kiến tạo"
-      },
-      "value": {
-        "present": "Vì sứ mệnh bảo vệ sức khỏe và niềm tin của người bệnh.",
-        "param1": "Thấu hiểu, lắng nghe và luôn sát cánh cùng bệnh nhân trong suốt lộ trình chẩn đoán và điều trị.",
-        "param2": "Đánh giá kết quả hỗ trợ từ AI bằng tri thức y khoa vững vàng, chịu trách nhiệm cho mỗi quyết định lâm sàng.",
-        "param3": "Cùng đóng góp tri thức và kinh nghiệm thực tế để nâng cao độ chính xác, hoàn thiện hệ sinh thái y tế AI."
-      }
-    }
-    },
-
-  "Footer": {
-    "brand": {
-      "logoAlt": "Logo Chicken Guy Group",
-      "badge": "Health AI Suite",
-      "mission": "Dự án y tế số tiên phong ứng dụng thị giác máy tính và trí tuệ nhân tạo (AI) hỗ trợ sàng lọc, phát hiện sớm ung thư vòm họng (NPC) – nâng cao tỷ lệ điều trị thành công vì cộng đồng.",
-      "security": "Mã hóa bảo mật 2 chiều",
-      "withDoctors": "Đồng hành cùng Bác sĩ"
-    },
-    "patient": {
-      "title": "Bệnh Nhân",
-      "sendImage": "Gửi ảnh soi vòm họng",
-      "warningSigns": "Dấu hiệu cảnh báo sớm NPC",
-      "photoGuide": "Hướng dẫn chụp ảnh chuẩn",
-      "anonymity": "Cam kết ẩn danh dữ liệu"
-    },
-    "doctor": {
-      "title": "Bác Sĩ",
-      "caseIntake": "Cổng tiếp nhận ca bệnh",
-      "aiCompare": "Đối chiếu phân tích AI",
-      "tnm": "Phân loại TNM (AJCC-8)",
-      "consult": "Hội chẩn liên viện"
-    },
-    "support": {
-      "title": "Hỗ Trợ Khẩn",
-      "hotlineLabel": "Tổng Đài Tư Vấn Miễn Phí",
-      "hours": "Hoạt động: 07:00 - 21:00 hàng ngày",
-      "location": "Hà Nội & TP. Hồ Chí Minh"
-    },
-    "disclaimer": "<strong>Miễn trừ trách nhiệm y tế:</strong> Nền tảng công nghệ do nhóm Chicken Guy phát triển nhằm mục đích hỗ trợ nâng cao nhận thức và hỗ trợ phân loại sơ bộ. Mọi chẩn đoán xác định và phác đồ can thiệp bắt buộc phải được bác sĩ chuyên khoa Tai Mũi Họng / Ung Bướu kết luận trực tiếp.",
-    "copyright": "© {year} Chicken Guy Health AI. All rights reserved."
-  }
-},
   "Patient": {
     "steps": {
       "upload": "Hình ảnh",
@@ -183,6 +280,4 @@
       }
     }
   }
-  
-  
 }

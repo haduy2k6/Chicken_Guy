@@ -1,0 +1,10 @@
+// src/middleware.ts
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './src/i18n/routing';
+
+export default createMiddleware(routing);
+
+export const config = {
+  // Bỏ qua các đường dẫn nội bộ của Next.js và các file tĩnh
+  matcher: ['/', '/(vi|en)/:path*']
+};

@@ -45,8 +45,6 @@ export class AuthController {
     const { accessToken, refreshToken } = await this.authService.createToken(userId, role);
 
     this.setRefreshCookie(res, refreshToken);
-
-    // Extract locale dynamic from OAuth state (vi or en)
     let locale = 'vi';
     if (req.query?.state) {
       try {
