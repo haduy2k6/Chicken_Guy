@@ -9,6 +9,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module.js';
 import { RedisModule } from './redis/redis.module.js';
 import { PatientModule } from './patient/patient.module.js';
+import { DoctorModule } from './doctor/doctor.module.js';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { PatientModule } from './patient/patient.module.js';
     }),
     AuthModule,
     PatientModule,
+    DoctorModule,
     RedisModule,
   ],
   controllers: [AppController],

@@ -41,23 +41,37 @@ export class AuthController {
     @Req() req: any,
     @Res() res: Response,
   ) {
-    const { userId, role } = req.user;
-    const { accessToken, refreshToken } = await this.authService.createToken(userId, role);
+    const { userId, role, name, email } = req.user;
+    const { accessToken, refreshToken } = await this.authService.createToken(
+      userId,
+      role,
+      { name, email },
+    );
 
     this.setRefreshCookie(res, refreshToken);
     let locale = 'vi';
+    let returnUrl = '';
+
     if (req.query?.state) {
       try {
         const parsed = JSON.parse(req.query.state as string);
         if (parsed.locale) locale = parsed.locale;
+        if (parsed.returnUrl) returnUrl = parsed.returnUrl;
       } catch {
         if (typeof req.query.state === 'string') locale = req.query.state;
       }
     }
 
-    const frontUrl = process.env.FRONT || 'https://chicken-7mrhs5u3-haduy2k6s-projects.vercel.app';
+    const baseFront =
+      returnUrl ||
+      process.env.FRONT ||
+      (process.env.NODE_ENV === 'production'
+        ? 'https://chicken-7mrhs5u3-haduy2k6s-projects.vercel.app'
+        : 'http://localhost:3001');
+
+    const cleanFront = baseFront.replace(/\/$/, '');
     const siteRole = role === UserRole.DOCTOR ? 'doctor' : 'patient';
-    const redirectUrl = `${frontUrl}/${locale}/${siteRole}`;
+    const redirectUrl = `${cleanFront}/${locale}/${siteRole}`;
     return res.redirect(`${redirectUrl}?token=${accessToken}`);
   }
 
@@ -74,7 +88,13 @@ export class AuthController {
       if (result.refreshToken) {
         this.setRefreshCookie(res, result.refreshToken);
       }
-      return { accessToken: result.accessToken, role: result.role };
+      return {
+        accessToken: result.accessToken,
+        role: result.role,
+        name: result.name,
+        email: result.email,
+        avatar: result.avatar,
+      };
     } catch (error) {
       this.clearRefreshCookie(res);
       throw error;
@@ -84,7 +104,6 @@ export class AuthController {
   @UseGuards(AccessGuard)
   @Get('me')
   async getMe(@Req() req: any) {
-    // Utilize Redis Cache first for sub-millisecond response time
     return this.authService.getProfile(req.user.userId);
   }
 
@@ -93,10 +112,8 @@ export class AuthController {
     @Req() req: any,
     @Res({ passthrough: true }) res: Response,
   ) {
-    // 1. Always unconditionally clear the httpOnly refresh cookie
     this.clearRefreshCookie(res);
 
-    // 2. Safely resolve userId without crashing if req.user is undefined
     try {
       let userId = req.user?.userId;
       if (!userId) {
@@ -113,10 +130,8 @@ export class AuthController {
         await this.authService.logout(userId);
       }
     } catch (err) {
-      // Safe failover
     }
 
-    // 3. Return clean JSON for frontend Axios client
     return { success: true, message: 'Đăng xuất thành công' };
   }
 }

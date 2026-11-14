@@ -1,6 +1,7 @@
 import 'multer';
 import {
   Controller,
+  Get,
   Post,
   Req,
   Body,
@@ -15,6 +16,13 @@ import { PatientService } from "./patient.service.js";
 @Controller("patient")
 export class PatientController {
   constructor(private readonly patientService: PatientService) {}
+
+  @Get("history")
+  @UseGuards(AccessGuard)
+  async getHistory(@Req() req: any) {
+    const userId = req.user?.userId;
+    return this.patientService.getHistory(userId);
+  }
 
   @Post()
   @UseGuards(AccessGuard)

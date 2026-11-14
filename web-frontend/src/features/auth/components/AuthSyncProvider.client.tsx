@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useAuthStore } from "@/src/StoreUser/Global/AuthStore";
+import { useAuthStore, UserSession } from "@/src/StoreUser/Global/AuthStore";
 import { UserUI } from "@/src/StoreUser/Global/UserUI";
 import { usePatientStore } from "@/src/StoreUser/Patient/PatientStore";
+import { useDoctorStore } from "@/src/StoreUser/Doctor/DoctorStore";
 import { authChannel } from "@/src/StoreUser/Global/authChannel";
 import { authService } from "../services/auth.service";
 import { getQueryClient } from "@/src/Tanstackquery/tanstackConfig";
@@ -13,50 +14,70 @@ type Role = "patient" | "doctor";
 const normalizeRole = (role?: string | null): Role =>
   role === "doctor" ? "doctor" : "patient";
 
-/**
- * Đăng nhập hoàn chỉnh từ một accessToken.
- * - Đặt token vào store bằng setState (KHÔNG broadcast) để interceptor gắn
- *   Authorization cho request getMe().
- * - Nếu thiếu role/name thì lấy từ getMe().
- * - Cuối cùng gọi setLogin() đúng 1 lần (bật isLogin + broadcast sang tab khác).
- */
+function decodeJwt(token: string): {
+  sub?: string;
+  role?: string;
+  name?: string;
+  email?: string;
+} | null {
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const base64Url = parts[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  } catch {
+    return null;
+  }
+}
+
 async function loginWithToken(
   accessToken: string,
-  hint?: { role?: string | null; name?: string | null }
+  hint?: { role?: string | null; name?: string | null; email?: string | null; avatar?: string | null }
 ): Promise<void> {
-  let role = hint?.role ?? undefined;
-  let name = hint?.name ?? undefined;
-
-  if (!role || !name) {
-    useAuthStore.setState({ accessToken });
-    try {
-      const profile = (await authService.getMe()) as unknown as {
-        role?: string;
-        name?: string;
-      };
-      role = role ?? profile?.role;
-      name = name ?? profile?.name;
-    } catch (err) {
-      console.warn("[AuthSyncProvider] getMe failed after login:", err);
-    }
-  }
+  const decoded = decodeJwt(accessToken);
+  const initialRole = normalizeRole(hint?.role || decoded?.role);
+  const initialName = hint?.name || decoded?.name || (decoded?.email ? decoded.email.split("@")[0] : "");
+  const initialEmail = hint?.email || decoded?.email;
+  const initialUserId = decoded?.sub || "user";
+  const initialAvatar = hint?.avatar?? undefined;
 
   useAuthStore.getState().setLogin({
     accessToken,
-    role: normalizeRole(role),
-    name: name ?? "",
-    isLogin: true,
+    role: initialRole,
+    name: initialName,
+    email: initialEmail,
+    avatar: initialAvatar,
+    userId: initialUserId,
+    user: {
+      userId: initialUserId,
+      role: initialRole,
+      name: initialName,
+      email: initialEmail,
+      avatar: initialAvatar,
+    },
   });
-}
 
-/** Xóa state đăng nhập ở tab hiện tại, KHÔNG broadcast và KHÔNG redirect. */
-function clearLocalAuth(): void {
-  useAuthStore.setState({
-    role: "patient",
-    accessToken: "",
-    isLogin: false,
-    name: "",
-  });
+  try {
+    const profile = await authService.getMe();
+    if (profile) {
+      useAuthStore.getState().setUser({
+        userId: profile.userId || initialUserId,
+        role: normalizeRole(profile.role || initialRole),
+        name: profile.name || initialName,
+        email: profile.email || initialEmail,
+        avatar: profile.avatar ||initialAvatar,
+      });
+    }
+  } catch (err) {
+    console.warn("[AuthSyncProvider] getMe fetch note:", err);
+  }
 }
 
 export function AuthSyncProvider({
@@ -67,17 +88,16 @@ export function AuthSyncProvider({
   currentLocale?: string;
 }) {
   const isSessionChecked = useRef(false);
+  useEffect(() => {
+  useAuthStore.getState().hydrate();
+}, []);
 
-  // Đồng bộ ngôn ngữ theo locale của route
   useEffect(() => {
     if (currentLocale) {
       UserUI.getState().syncFromLocale(currentLocale);
     }
   }, [currentLocale]);
 
-  // Đồng bộ giữa các tab.
-  // Việc set state (accessToken/role/name/isLogin) đã do AuthStore tự subscribe xử lý,
-  // nên ở đây chỉ làm các side-effect: query cache và patient store.
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -91,12 +111,13 @@ export function AuthSyncProvider({
 
         case "AUTH_LOGOUT":
           usePatientStore.getState().clearUserSession();
+          useDoctorStore.getState().clearDoctorSession();
           queryClient.clear();
           queryClient.removeQueries();
           break;
 
         case "AUTH_TOKEN_REFRESHED":
-          // AuthStore đã cập nhật token, không cần làm gì thêm
+          queryClient.invalidateQueries();
           break;
       }
     });
@@ -106,18 +127,21 @@ export function AuthSyncProvider({
     };
   }, []);
 
-  // Khôi phục session khi app mount (sau redirect Google hoặc khi F5)
   useEffect(() => {
     if (typeof window === "undefined" || isSessionChecked.current) return;
     isSessionChecked.current = true;
 
     const handleUrlToken = async (): Promise<boolean> => {
       const urlParams = new URLSearchParams(window.location.search);
-      const tokenFromUrl = urlParams.get("token");
-      if (!tokenFromUrl) return false;
+      const tokenFromUrl =
+        urlParams.get("token") ||
+        urlParams.get("accessToken") ||
+        urlParams.get("access_token");
 
-      // Xóa token khỏi URL, giữ nguyên các query khác
+      if (!tokenFromUrl) return false;
       urlParams.delete("token");
+      urlParams.delete("accessToken");
+      urlParams.delete("access_token");
       const remainingQuery = urlParams.toString();
       const cleanUrl = `${window.location.pathname}${
         remainingQuery ? `?${remainingQuery}` : ""
@@ -130,30 +154,39 @@ export function AuthSyncProvider({
 
     const initSession = async () => {
       try {
-        if (await handleUrlToken()) return;
+        const handled = await handleUrlToken();
+        if (handled) return;
+        const existingToken = useAuthStore.getState().accessToken;
+        if (existingToken) {
+          try {
+            const profile = await authService.getMe();
+            if (profile) {
+              useAuthStore.getState().setUser({
+                userId: profile.userId,
+                role: normalizeRole(profile.role),
+                name: profile.name,
+                email: profile.email,
+                avatar: profile.avatar,
+              });
+            }
+            return;
+          } catch {
+          }
+        }
 
-        // Đã có token trong store (ví dụ tab khác vừa sync) thì thôi
-        if (useAuthStore.getState().accessToken) return;
-
-        // Không có token: thử dùng refresh-token cookie
         try {
-          const data = (await authService.refreshToken()) as unknown as {
-            accessToken?: string;
-            role?: string;
-            name?: string;
-          };
-
+          const data = await authService.refreshToken();
           if (data?.accessToken) {
             await loginWithToken(data.accessToken, {
               role: data.role,
               name: data.name,
+              email: data.email,
+              avatar: data.avatar,
             });
           }
         } catch {
-          // Chưa đăng nhập hoặc cookie hết hạn: bỏ qua.
-          // Không gọi setLogout() vì nó redirect /login.
           if (useAuthStore.getState().isLogin) {
-            clearLocalAuth();
+            useAuthStore.getState().setLogout();
           }
         }
       } catch (err) {

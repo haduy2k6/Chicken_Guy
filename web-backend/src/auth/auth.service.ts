@@ -23,9 +23,20 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async createToken(userId: string, role: UserRole) {
+  async createToken(
+    userId: string,
+    role: UserRole,
+    extra?: { name?: string; email?: string },
+  ) {
+    const payload = {
+      sub: userId,
+      role,
+      name: extra?.name,
+      email: extra?.email,
+    };
+
     const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync({ sub: userId, role }),
+      this.jwtService.signAsync(payload),
       this.jwtService.signAsync({ sub: userId, role }, this.refreshKey),
     ]);
 
@@ -39,7 +50,13 @@ export class AuthService {
         provider: appAuth.provider,
         providerId: appAuth.providerId,
       },
-      select: { id: true, activeRole: true },
+      select: {
+        id: true,
+        activeRole: true,
+        name: true,
+        email: true,
+        avatar: true,
+      },
     });
 
     if (!user) {
@@ -47,11 +64,37 @@ export class AuthService {
         provider: appAuth.provider,
         providerId: appAuth.providerId,
         activeRole: UserRole.PATIENT,
+        name: appAuth.name,
+        email: appAuth.email,
+        avatar: appAuth.avatar,
       });
       user = await this.userRepository.save(user);
+    } else if (appAuth.name || appAuth.email || appAuth.avatar) {
+      let updated = false;
+      if (appAuth.name && user.name !== appAuth.name) {
+        user.name = appAuth.name;
+        updated = true;
+      }
+      if (appAuth.email && user.email !== appAuth.email) {
+        user.email = appAuth.email;
+        updated = true;
+      }
+      if (appAuth.avatar && user.avatar !== appAuth.avatar) {
+        user.avatar = appAuth.avatar;
+        updated = true;
+      }
+      if (updated) {
+        user = await this.userRepository.save(user);
+      }
     }
 
-    const profile: AuthUserDto = { userId: user.id, role: user.activeRole };
+    const profile: AuthUserDto = {
+      userId: user.id,
+      role: user.activeRole,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+    };
     // Warm up Redis cache in background
     this.redisCache.cacheUserProfile(user.id, profile, 3600);
     return profile;
@@ -64,17 +107,29 @@ export class AuthService {
       return cached;
     }
 
-    // 2. Query Supabase
+    // 2. Query Database
     const user = await this.userRepository.findOne({
       where: { id: userId },
-      select: { id: true, activeRole: true },
+      select: {
+        id: true,
+        activeRole: true,
+        name: true,
+        email: true,
+        avatar: true,
+      },
     });
 
     if (!user) {
       throw new UnauthorizedException("Người dùng không tồn tại hoặc đã bị thu hồi quyền");
     }
 
-    const profile: AuthUserDto = { userId: user.id, role: user.activeRole };
+    const profile: AuthUserDto = {
+      userId: user.id,
+      role: user.activeRole,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+    };
     // Asynchronously cache into Redis
     this.redisCache.cacheUserProfile(userId, profile, 3600);
     return profile;
@@ -88,8 +143,20 @@ export class AuthService {
       throw new UnauthorizedException('Phiên làm việc không hợp lệ hoặc đã hết hạn');
     }
 
-    const { accessToken, refreshToken: newRefreshToken } = await this.createToken(userId, role);
-    return { accessToken, refreshToken: newRefreshToken, role };
+    const profile = await this.getProfile(userId);
+    const { accessToken, refreshToken: newRefreshToken } = await this.createToken(
+      userId,
+      role,
+      { name: profile.name, email: profile.email },
+    );
+    return {
+      accessToken,
+      refreshToken: newRefreshToken,
+      role,
+      name: profile.name,
+      email: profile.email,
+      avatar: profile.avatar,
+    };
   }
 
   async logout(userId: string): Promise<void> {

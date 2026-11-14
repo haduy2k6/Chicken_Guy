@@ -27,8 +27,10 @@ export class RouteManager {
   public static readonly API = {
     BASE_URL: ENV.apiUrl,
     AUTH: {
-      GOOGLE_LOGIN: (locale = "vi") =>
-        `${ENV.apiUrl}/auth/google?locale=${encodeURIComponent(locale)}`,
+      GOOGLE_LOGIN: (locale = "vi", returnUrl?: string) =>
+        `${ENV.apiUrl}/auth/google?locale=${encodeURIComponent(locale)}${
+          returnUrl ? `&returnUrl=${encodeURIComponent(returnUrl)}` : ""
+        }`,
       REFRESH: "/auth/refresh",
       LOGOUT: "/auth/logout",
       ME: "/auth/me",

@@ -1,7 +1,22 @@
+export interface UserSessionPayload {
+  userId: string;
+  role: "patient" | "doctor";
+  name: string;
+  email?: string;
+  avatar?: string;
+}
+
+type TokenPayload = {
+  accessToken: string;
+  role?: "patient" | "doctor" | string;
+  name?: string;
+  user?: UserSessionPayload;
+};
+
 export type AuthEvent =
-  | { type: "AUTH_LOGIN"; payload: { accessToken: string; role?: string; name?: string } }
+  | { type: "AUTH_LOGIN"; payload: TokenPayload }
   | { type: "AUTH_LOGOUT" }
-  | { type: "AUTH_TOKEN_REFRESHED"; payload: { accessToken: string; role?: string } };
+  | { type: "AUTH_TOKEN_REFRESHED"; payload: TokenPayload };
 
 type Listener = (event: AuthEvent) => void;
 
@@ -13,19 +28,24 @@ class AuthSyncChannel {
   private listeners: Set<Listener> = new Set();
 
   constructor() {
-    if (typeof window !== "undefined") {
-      if ("BroadcastChannel" in window) {
-        try {
-          this.channel = new BroadcastChannel(CHANNEL_NAME);
-          this.channel.onmessage = (e: MessageEvent<AuthEvent>) => {
-            if (e.data && e.data.type) {
-              this.notify(e.data);
-            }
-          };
-        } catch {
-          this.channel = null;
-        }
+    if (typeof window === "undefined") return;
+
+    if ("BroadcastChannel" in window) {
+      try {
+        this.channel = new BroadcastChannel(CHANNEL_NAME);
+        this.channel.onmessage = (e: MessageEvent<AuthEvent>) => {
+          if (e.data && e.data.type) {
+            this.notify(e.data);
+          }
+        };
+      } catch {
+        this.channel = null;
       }
+    }
+
+    // Chỉ dùng "storage" làm fallback khi không có BroadcastChannel,
+    // tránh nhận cùng một event 2 lần.
+    if (!this.channel) {
       window.addEventListener("storage", (e: StorageEvent) => {
         if (e.key === STORAGE_KEY && e.newValue) {
           try {
@@ -46,10 +66,14 @@ class AuthSyncChannel {
       try {
         this.channel.postMessage(event);
       } catch {}
+      return;
     }
 
+    // Fallback: trình duyệt không có BroadcastChannel
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...event, _t: Date.now() }));
+      // Xoá ngay để token không nằm lại trên đĩa
+      localStorage.removeItem(STORAGE_KEY);
     } catch {}
   }
 

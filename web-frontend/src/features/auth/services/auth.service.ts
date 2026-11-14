@@ -4,6 +4,7 @@ import { patientDbStorage } from "@/src/core/storage/indexedDbStorage";
 import { useAuthStore } from "@/src/StoreUser/Global/AuthStore";
 import { UserUI } from "@/src/StoreUser/Global/UserUI";
 import { usePatientStore } from "@/src/StoreUser/Patient/PatientStore";
+import { useDoctorStore } from "@/src/StoreUser/Doctor/DoctorStore";
 import { getQueryClient } from "@/src/Tanstackquery/tanstackConfig";
 import { TokenResponse, UserProfileResponse } from "../types";
 
@@ -11,7 +12,8 @@ export class AuthService {
   public loginWithGoogle(customLocale?: string): void {
     if (typeof window !== "undefined") {
       const locale = customLocale || UserUI.getState().language || "vi";
-      window.location.href = API_ROUTES.AUTH.GOOGLE_LOGIN(locale);
+      const returnUrl = window.location.origin;
+      window.location.href = API_ROUTES.AUTH.GOOGLE_LOGIN(locale, returnUrl);
     }
   }
 
@@ -33,6 +35,7 @@ export class AuthService {
     } catch {
     } finally {
       usePatientStore.getState().clearUserSession();
+      useDoctorStore.getState().clearDoctorSession();
       useAuthStore.getState().setLogout();
 
       if (typeof window !== "undefined") {
@@ -42,8 +45,6 @@ export class AuthService {
       }
     }
   }
-
-  
 }
 
 export const authService = new AuthService();

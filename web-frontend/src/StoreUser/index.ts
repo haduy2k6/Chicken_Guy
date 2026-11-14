@@ -8,3 +8,5 @@ export * from "./Patient/patientSync";
 export * from "./Patient/PatientTheme";
 
 export * from "./Doctor/DoctorStore";
+export * from "./Doctor/DoctorFile";
+export * from "./Doctor/Doctorsync";

@@ -89,6 +89,12 @@ export class Diagnosis {
   @Column({ type: 'boolean', name: 'oral_cancer_diagnosis', default: false })
   oralCancerDiagnosis: boolean;
 
+  @Column({ type: 'varchar', length: 50, default: 'pending' })
+  status: string; // 'pending' | 'reviewed' | 'escalated'
+
+  @Column({ type: 'text', nullable: true })
+  notes?: string;
+
   @CreateDateColumn({ type: 'timestamptz', name: 'created_at' })
   createdAt: Date;
 

@@ -3,11 +3,15 @@ export interface UserSession {
   role: string;
   name?: string;
   email?: string;
+  avatar?: string;
 }
 
 export interface TokenResponse {
   accessToken: string;
   role?: string;
+  name?: string;
+  email?: string;
+  avatar?: string;
 }
 
 export interface UserProfileResponse {
@@ -15,4 +19,5 @@ export interface UserProfileResponse {
   role: string;
   name?: string;
   email?: string;
+  avatar?: string;
 }

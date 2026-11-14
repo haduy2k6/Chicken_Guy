@@ -32,6 +32,15 @@ export class User {
   @Column({ type: 'varchar', length: 255, name: 'provider_id' })
   providerId: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  email?: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  name?: string;
+
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  avatar?: string;
+
   @Column({
     type: 'enum',
     enum: UserRole,

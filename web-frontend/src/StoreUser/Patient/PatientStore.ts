@@ -36,7 +36,7 @@ const resolve = (files: File[], current: Status): Status =>
   files.length === 0 ? Status.empty : current === Status.empty ? Status.fill : current;
 
 const getCurrentUserId = (): string => {
-  return useAuthStore.getState().name || "guest";
+  return useAuthStore.getState().user?.userId || useAuthStore.getState().name || "guest";
 };
 
 export const usePatientStore = create<PatientState>((set, get) => {

@@ -96,21 +96,24 @@ export class HttpClient {
           const response = await this.rawClient.post<{
             accessToken: string;
             role: "patient" | "doctor";
-            name:string;
+            name?: string;
+            email?: string;
+            avatar?: string;
           }>(API_ROUTES.AUTH.REFRESH);
 
-          const { accessToken, role,name } = response.data;
+          const { accessToken, role, name, email, avatar } = response.data;
           if (!accessToken) {
             throw new Error("Không nhận được access token từ endpoint refresh");
           }
 
-          let kq= {
-            role:role,
-            accessToken: accessToken,
-            isLogin:true,
-            name:name
-          }
-          useAuthStore.getState().setLogin(kq);
+          useAuthStore.getState().setLogin({
+            role,
+            accessToken,
+            name,
+            email,
+            avatar,
+          });
+
           return accessToken;
         } catch (err) {
           useAuthStore.getState().setLogout();

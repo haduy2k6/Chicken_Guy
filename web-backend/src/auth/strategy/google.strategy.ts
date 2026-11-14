@@ -26,10 +26,20 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: any,
     done: VerifyCallback,
   ): Promise<any> {
-    const {userId, role } = await this.authService.validate({
+    const email = profile.emails?.[0]?.value;
+    const name =
+      profile.displayName ||
+      profile.name?.givenName ||
+      (email ? email.split('@')[0] : 'User');
+    const avatar = profile.photos?.[0]?.value;
+
+    const authUser = await this.authService.validate({
       provider: 'google',
       providerId: profile.id,
+      name,
+      email,
+      avatar,
     });
-    done(null, { userId, role });
+    done(null, authUser);
   }
 }

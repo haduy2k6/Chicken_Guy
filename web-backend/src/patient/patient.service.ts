@@ -93,4 +93,31 @@ export class PatientService {
       };
     });
   }
+
+  async getHistory(userId: string) {
+    const profile = await this.patientRepo.findOne({
+      where: { user: { id: userId } },
+    });
+
+    if (!profile) {
+      return [];
+    }
+
+    const diagnoses = await this.diagnosisRepo.find({
+      where: { patient: { id: profile.id } },
+      order: { createdAt: 'DESC' },
+      relations: { doctor: { user: true } },
+    });
+
+    return diagnoses.map((d) => ({
+      id: d.id,
+      submissionDate: d.createdAt ? d.createdAt.toISOString() : new Date().toISOString(),
+      status: d.status || 'pending',
+      diagnosisNotes: d.notes || undefined,
+      doctorName: d.doctor?.user?.name,
+      tumorSizeCm: d.tumorSizeCm,
+      cancerStage: d.cancerStage,
+      treatmentType: d.treatmentType,
+    }));
+  }
 }

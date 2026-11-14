@@ -1,7 +1,6 @@
 "use client";
 
 import { UserUI } from "@/src/StoreUser/Global/UserUI";
-import { useAuthStore } from "@/src/StoreUser/Global/AuthStore";
 import { authService } from "../services/auth.service";
 import { X, User, ShieldCheck } from "lucide-react";
 
