@@ -1,17 +1,27 @@
 {
+<<<<<<< HEAD
   "name": "Chicken_Guy_v2",
+=======
+  "name": "Desktop",
+>>>>>>> 4c4ae995cc8fe874e069d355ecbf97ae4874c819
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< HEAD
     "dev:backend": "pnpm --dir backend start:dev",
     "dev:frontend": "pnpm --dir frontend dev -p 3002",
+=======
+    "dev:backend": "pnpm --dir web-backend start:dev",
+    "dev:frontend": "pnpm --dir web-frontend dev -p 3001",
+>>>>>>> 4c4ae995cc8fe874e069d355ecbf97ae4874c819
     "dev": "concurrently \"pnpm dev:backend\" \"pnpm dev:frontend\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+<<<<<<< HEAD
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
@@ -25,3 +35,13 @@
     "concurrently": "^10.0.7"
   }
 }
+=======
+  "dependencies": {
+    "@nestjs/axios": "^12.0.1",
+    "axios": "^1.20.0"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}
+>>>>>>> 4c4ae995cc8fe874e069d355ecbf97ae4874c819
