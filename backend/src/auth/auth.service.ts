@@ -6,8 +6,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { REFRESH_TTL_SECONDS } from '../common/auth-cookie.util.js';
 import refreshJwt from '../config/refresh.jwt.js';
-import { CreateUserDTO } from '../dto/CreateUserGoogleDTO.dto.js';
-import { AuthUserDto, TokenResponseDto } from '../dto/auth.dto.js';
+import type { AuthUserDto, TokenResponseDto } from '../dto/auth.dto.js';
+import type { CreateUserDTO } from '../dto/create-user.dto.js';
 import { User, UserRole } from '../Entity-User/User.entity.js';
 import { RedisUser } from '../redis/redis.service.js';
 
@@ -139,7 +139,6 @@ export class AuthService {
     }
   }
 
-  /** Dùng cho logout: chữ ký phải đúng, nhưng token hết hạn vẫn được phép đăng xuất */
   async verifyAccessTokenIgnoringExpiry(token: string): Promise<VerifiedPayload | null> {
     try {
       return await this.jwtService.verifyAsync<VerifiedPayload>(token, { ignoreExpiration: true });

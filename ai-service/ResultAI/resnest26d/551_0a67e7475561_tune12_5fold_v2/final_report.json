@@ -1,0 +1,62 @@
+{
+  "model": "resnest26d",
+  "timm_name": "resnest26d.gluon_in1k",
+  "n_members": 5,
+  "threshold": 0.6171089,
+  "test_metrics": {
+    "auc": 0.9683333333333333,
+    "auprc": 0.9651097576745202,
+    "sensitivity": 0.86,
+    "specificity": 0.9333333333333333,
+    "precision": 0.9148936170212766,
+    "f1": 0.8865979381443299,
+    "accuracy": 0.9,
+    "brier": 0.06858344146069471
+  },
+  "test_auc_ci95": [
+    0.9371062512922094,
+    0.992645358047442
+  ],
+  "bundle_file": "/content/drive/MyDrive/AI/Chicken_Guy_v2/final_resnest26d.pth",
+  "bundle_size_mb": 144.0,
+  "max_abs_probability_difference": 0.002218479604003898,
+  "selected_members": [
+    [
+      44,
+      0
+    ],
+    [
+      33,
+      1
+    ],
+    [
+      11,
+      2
+    ],
+    [
+      44,
+      3
+    ],
+    [
+      55,
+      4
+    ]
+  ],
+  "best_params": {
+    "lr": 0.00016410930076320087,
+    "wd": 0.005649295166624278,
+    "drop": 0.4258586659876328,
+    "bs": 32
+  },
+  "class_counts": {
+    "0": 300,
+    "1": 251
+  },
+  "assumptions": [
+    "patient_id unavailable; per user instruction, each image is treated as one independent patient/case with its own group"
+  ],
+  "limitations": [
+    "small independent test set",
+    "seed and Youden threshold selected on the same OOF validation folds; validation performance can be optimistic, while test remains untouched"
+  ]
+}

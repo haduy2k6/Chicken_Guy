@@ -1,27 +1,13 @@
 {
-<<<<<<< HEAD
-  "name": "Chicken_Guy_v2",
-=======
-  "name": "Desktop",
->>>>>>> 4c4ae995cc8fe874e069d355ecbf97ae4874c819
+  "name": "chicken-guy-v2",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-<<<<<<< HEAD
     "dev:backend": "pnpm --dir backend start:dev",
     "dev:frontend": "pnpm --dir frontend dev -p 3002",
-=======
-    "dev:backend": "pnpm --dir web-backend start:dev",
-    "dev:frontend": "pnpm --dir web-frontend dev -p 3001",
->>>>>>> 4c4ae995cc8fe874e069d355ecbf97ae4874c819
-    "dev": "concurrently \"pnpm dev:backend\" \"pnpm dev:frontend\""
+    "dev:ai": "cd ai-service && venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload",
+    "dev": "concurrently --kill-others-on-fail \"pnpm dev:backend\" \"pnpm dev:frontend\" \"pnpm dev:ai\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-<<<<<<< HEAD
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
@@ -32,16 +18,6 @@
   "packageManager": "pnpm@12.18.0",
   "type": "module",
   "devDependencies": {
-    "concurrently": "^10.0.7"
-  }
-}
-=======
-  "dependencies": {
-    "@nestjs/axios": "^12.0.1",
-    "axios": "^1.20.0"
-  },
-  "devDependencies": {
     "concurrently": "^10.0.6"
   }
 }
->>>>>>> 4c4ae995cc8fe874e069d355ecbf97ae4874c819

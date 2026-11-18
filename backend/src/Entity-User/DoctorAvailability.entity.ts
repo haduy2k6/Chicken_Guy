@@ -1,8 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import type { Relation } from 'typeorm';
+import type { WorkSession } from '../common/app-time.util.js';
 import { DoctorProfile } from './Doctor.entity.js';
-
-export type WorkSession = 'morning' | 'afternoon';
 
 /** Mỗi dòng = bác sĩ LÀM VIỆC ở buổi đó. Không có dòng = nghỉ. Bác sĩ ghi đè cả tuần mỗi lần cập nhật. */
 @Entity('doctor_availability')

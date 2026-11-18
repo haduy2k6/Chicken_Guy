@@ -13,6 +13,15 @@ import { Referral } from '../Entity-User/Referral.entity.js';
 import { Specialty } from '../Entity-User/Specialty.entity.js';
 import { User } from '../Entity-User/User.entity.js';
 
+/**
+ * Đặt DB_SSL_CA (nội dung chứng chỉ CA của Supabase, xuống dòng viết \n) để bật kiểm tra chứng chỉ.
+ * Không đặt thì vẫn mã hóa nhưng không xác thực máy chủ: chỉ chấp nhận ở development.
+ */
+const sslOption = () => {
+  const ca = process.env.DB_SSL_CA?.replace(/\\n/g, '\n');
+  return ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: false };
+};
+
 export default registerAs(
   'database',
   (): TypeOrmModuleOptions => ({
@@ -26,8 +35,7 @@ export default registerAs(
       AiAnalysis, Appointment, AuditLog, CaseImage, DoctorAvailability, DoctorProfile,
       DoctorReview, MedicalCase, PatientProfile, Referral, Specialty, User,
     ],
-    ssl: { rejectUnauthorized: false },
-    autoLoadEntities: true,
+    ssl: sslOption(),
     // Chỉ tự đồng bộ schema ở development; production dùng migration (hoặc DB_SYNC=true rõ ràng)
     synchronize: process.env.DB_SYNC ? process.env.DB_SYNC === 'true' : process.env.NODE_ENV === 'development',
     extra: { max: 10 },

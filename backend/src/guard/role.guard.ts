@@ -2,14 +2,14 @@ import { CanActivate, ExecutionContext, ForbiddenException, Injectable, Unauthor
 import { Reflector } from '@nestjs/core';
 import { Roles } from '../decorator/role.decorator.js';
 
-/** Route không gắn @Roles thì cho qua: mọi controller nghiệp vụ đều phải gắn @Roles */
+/** Fail-closed: route dùng RoleGuard mà quên gắn @Roles thì bị từ chối, không bao giờ cho qua mặc định */
 @Injectable()
 export class RoleGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.getAllAndOverride<string[]>(Roles, [context.getHandler(), context.getClass()]);
-    if (!roles?.length) return true;
+    if (!roles?.length) throw new ForbiddenException('Tài nguyên chưa được khai báo quyền truy cập');
 
     const { user } = context.switchToHttp().getRequest();
     if (!user) throw new UnauthorizedException('Chưa đăng nhập');

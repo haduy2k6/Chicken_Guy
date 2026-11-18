@@ -1,1 +1,32 @@
+# Local secrets
 .aider*
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Dependency directories
+node_modules/
+**/node_modules/
+venv/
+.venv/
+**/venv/
+**/.venv/
+
+# Build output and caches
+.next/
+**/.next/
+dist/
+**/dist/
+coverage/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+web-.zip
+
+# Generated model-training artifacts; retain reports and manifests
+ai-service/ResultAI/**/runs/
+ai-service/ResultAI/**/*.db
+ai-service/ResultAI/**/*.pth

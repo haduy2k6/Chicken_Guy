@@ -1,0 +1,158 @@
+{
+  "data_root": "/content/drive/MyDrive/AI/data",
+  "n_files": 551,
+  "n_readable": 551,
+  "class_counts": {
+    "0": 300,
+    "1": 251
+  },
+  "imbalance_ratio": 1.1952,
+  "image_size_counts": {
+    "224x224": 551
+  },
+  "color_mode_counts": {
+    "RGB": 550,
+    "L": 1
+  },
+  "non_rgb_images": [
+    "0/243.jpg"
+  ],
+  "jpeg_q80_counts": {
+    "0": 10,
+    "1": 82
+  },
+  "exact_duplicate_groups": [],
+  "near_duplicate_pairs_hamming_le_10": [
+    {
+      "image_a": "0/059.jpg",
+      "label_a": 0,
+      "image_b": "0/656.jpg",
+      "label_b": 0,
+      "hamming": 2
+    },
+    {
+      "image_a": "1/064.jpg",
+      "label_a": 1,
+      "image_b": "1/625.jpg",
+      "label_b": 1,
+      "hamming": 4
+    },
+    {
+      "image_a": "1/198.jpg",
+      "label_a": 1,
+      "image_b": "1/626.jpg",
+      "label_b": 1,
+      "hamming": 2
+    },
+    {
+      "image_a": "1/425.jpg",
+      "label_a": 1,
+      "image_b": "1/624.jpg",
+      "label_b": 1,
+      "hamming": 0
+    }
+  ],
+  "cross_class_near_duplicate_pairs": 0,
+  "patient_id_available": false,
+  "split_seed": 42,
+  "split": {
+    "seed": 42,
+    "method": "StratifiedGroupKFold",
+    "n_folds": 5,
+    "fractions": {
+      "test": 0.1996,
+      "development": 0.8004
+    },
+    "counts": {
+      "test": {
+        "split": "TEST",
+        "n": 110,
+        "lop0": 60,
+        "lop1": 50,
+        "lop1_nen_thap": 18
+      },
+      "folds": {
+        "0": {
+          "train": {
+            "split": "train",
+            "n": 352,
+            "lop0": 192,
+            "lop1": 160,
+            "lop1_nen_thap": 56
+          },
+          "val": {
+            "split": "val",
+            "n": 89,
+            "lop0": 48,
+            "lop1": 41,
+            "lop1_nen_thap": 18
+          }
+        },
+        "1": {
+          "train": {
+            "split": "train",
+            "n": 353,
+            "lop0": 192,
+            "lop1": 161,
+            "lop1_nen_thap": 62
+          },
+          "val": {
+            "split": "val",
+            "n": 88,
+            "lop0": 48,
+            "lop1": 40,
+            "lop1_nen_thap": 12
+          }
+        },
+        "2": {
+          "train": {
+            "split": "train",
+            "n": 353,
+            "lop0": 192,
+            "lop1": 161,
+            "lop1_nen_thap": 61
+          },
+          "val": {
+            "split": "val",
+            "n": 88,
+            "lop0": 48,
+            "lop1": 40,
+            "lop1_nen_thap": 13
+          }
+        },
+        "3": {
+          "train": {
+            "split": "train",
+            "n": 353,
+            "lop0": 192,
+            "lop1": 161,
+            "lop1_nen_thap": 58
+          },
+          "val": {
+            "split": "val",
+            "n": 88,
+            "lop0": 48,
+            "lop1": 40,
+            "lop1_nen_thap": 16
+          }
+        },
+        "4": {
+          "train": {
+            "split": "train",
+            "n": 353,
+            "lop0": 192,
+            "lop1": 161,
+            "lop1_nen_thap": 59
+          },
+          "val": {
+            "split": "val",
+            "n": 88,
+            "lop0": 48,
+            "lop1": 40,
+            "lop1_nen_thap": 15
+          }
+        }
+      }
+    }
+  }
+}

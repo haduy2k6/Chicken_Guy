@@ -1,6 +1,6 @@
-import { UserRole } from '../Entity-User/User.entity.js';
+import type { UserRole } from '../Entity-User/User.entity.js';
 
-export class TokenResponseDto {
+export interface TokenResponseDto {
   accessToken?: string;
   refreshToken?: string;
   role?: UserRole;
@@ -9,7 +9,7 @@ export class TokenResponseDto {
   avatar?: string;
 }
 
-export class AuthUserDto {
+export interface AuthUserDto {
   userId: string;
   role: UserRole;
   name?: string;

@@ -11,8 +11,12 @@ export const SESSION_HOURS: Record<WorkSession, number[]> = { morning: [8, 9, 10
 /** 'YYYY-MM-DD' theo giờ Việt Nam */
 export const toVnDate = (d: Date): string => dateFmt.format(d);
 
-export const isIsoDate = (v: unknown): v is string =>
-  typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v));
+/** Chuỗi ngày hợp lệ và có thật (loại 2026-02-31, vì Date.parse có thể chấp nhận) */
+export const isIsoDate = (v: unknown): v is string => {
+  if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
+  const d = new Date(`${v}T00:00:00Z`);
+  return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === v;
+};
 
 /** Thời điểm UTC ứng với `date` + `hour` giờ VN (VN không có giờ mùa hè nên cố định +07:00) */
 export const vnDateTime = (date: string, hour: number): Date =>

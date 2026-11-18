@@ -1,6 +1,7 @@
 // src/scheduling/scheduling.service.ts
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { Between, DataSource, EntityManager, In } from 'typeorm';
+import { BadRequestException, ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { Between, DataSource, EntityManager, In, LessThan } from 'typeorm';
 import { Appointment, AppointmentCreator, AppointmentStatus } from '../Entity-User/Appointment.entity.js';
 import { DoctorProfile } from '../Entity-User/Doctor.entity.js';
 import { DoctorAvailability } from '../Entity-User/DoctorAvailability.entity.js';
@@ -13,6 +14,8 @@ import type { AvailableDoctorsQuery, BookAppointmentDto, SetAvailabilityDto } fr
 
 const ACTIVE = [AppointmentStatus.SCHEDULED, AppointmentStatus.CONFIRMED];
 const BOOK_AHEAD_DAYS = 14;
+/** Lịch quá giờ hẹn ngần này thì tự chuyển sang "hoàn tất" để giải phóng hạn mức của bệnh nhân */
+const AUTO_COMPLETE_AFTER_MS = 2 * 3600_000;
 
 const slotTaken = () =>
   new ConflictException({
@@ -25,6 +28,8 @@ export const doctorLabel = (d: DoctorProfile) =>
 
 @Injectable()
 export class SchedulingService {
+  private readonly logger = new Logger(SchedulingService.name);
+
   constructor(
     private readonly ds: DataSource,
     private readonly audit: AuditService,
@@ -92,6 +97,38 @@ export class SchedulingService {
     return c;
   }
 
+  // ------------------------------------------------------------ vòng đời lịch hẹn
+
+  /** Lịch đã quá giờ thì hoàn tất; nếu không, ca đã duyệt có lịch sẽ giữ hạn mức vĩnh viễn. An toàn khi chạy nhiều instance. */
+  @Cron(CronExpression.EVERY_HOUR)
+  async autoComplete(): Promise<void> {
+    try {
+      await this.ds
+        .getRepository(Appointment)
+        .update({ status: In(ACTIVE), scheduledAt: LessThan(new Date(Date.now() - AUTO_COMPLETE_AFTER_MS)) }, { status: AppointmentStatus.COMPLETED });
+    } catch (err) {
+      this.logger.warn(`Tự hoàn tất lịch hẹn thất bại: ${(err as Error).message}`);
+    }
+  }
+
+  /** Bệnh nhân hủy lịch của chính mình (chỉ lịch còn hiệu lực và chưa đến giờ). Ca vẫn "đã duyệt", đặt lại được. */
+  async cancel(userId: string, appointmentId: string) {
+    const res = await this.ds
+      .createQueryBuilder()
+      .update(Appointment)
+      .set({ status: AppointmentStatus.CANCELLED, cancelledAt: () => 'now()' })
+      .where(
+        `id = :id AND status IN ('scheduled', 'confirmed') AND scheduled_at > now()
+         AND patient_id IN (SELECT id FROM patient_profiles WHERE user_id = :userId)`,
+        { id: appointmentId, userId },
+      )
+      .execute();
+    if (!res.affected) throw new NotFoundException('Không hủy được lịch hẹn');
+
+    void this.audit.log({ actorUserId: userId, action: 'appointment.cancelled', entityType: 'appointment', entityId: appointmentId });
+    return { success: true };
+  }
+
   // ------------------------------------------------------------ bệnh nhân
 
   /** Bác sĩ đã xác minh, đúng khoa của hồ sơ, đang làm việc vào ngày đó và còn khung trống */
@@ -138,6 +175,12 @@ export class SchedulingService {
     this.assertBookableDate(dto.date);
 
     return this.ds.transaction(async (m) => {
+      // Khóa dòng ca (chỉ của chính bệnh nhân) để hai request đồng thời không cùng qua kiểm tra ALREADY_BOOKED
+      await m
+        .createQueryBuilder(MedicalCase, 'c')
+        .setLock('pessimistic_write')
+        .where('c.id = :id AND c.patientId IN (SELECT id FROM patient_profiles WHERE user_id = :userId)', { id: dto.caseId, userId })
+        .getOne();
       const c = await this.ownedReviewedCase(m, userId, dto.caseId);
 
       if (await m.count(Appointment, { where: { caseId: c.id, status: In(ACTIVE) } })) {
@@ -205,7 +248,7 @@ export class SchedulingService {
 
     const wanted = new Map<string, DoctorAvailability>();
     for (const s of dto.slots) {
-      if (s.date < dto.weekStart || s.date > end) throw new BadRequestException('Có ngày nằm ngoài tuần đang chỉnh');
+      if (!isIsoDate(s.date) || s.date < dto.weekStart || s.date > end) throw new BadRequestException('Có ngày nằm ngoài tuần đang chỉnh');
       if (s.date < today) continue;
       wanted.set(`${s.date}|${s.session}`, Object.assign(new DoctorAvailability(), { doctorId, workDate: s.date, session: s.session }));
     }
@@ -232,8 +275,9 @@ export class SchedulingService {
   }
 
   async doctorAppointments(doctorId: string) {
+    const today = toVnDate(new Date());
     const rows = await this.ds.getRepository(Appointment).find({
-      where: { doctorId, status: In(ACTIVE), appointmentDate: Between(toVnDate(new Date()), addDays(toVnDate(new Date()), 60)) },
+      where: { doctorId, status: In(ACTIVE), appointmentDate: Between(today, addDays(today, 60)) },
       relations: { patient: { user: true } },
       order: { scheduledAt: 'ASC' },
       take: 200,

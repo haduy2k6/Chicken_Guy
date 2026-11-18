@@ -5,8 +5,8 @@ import { DoctorProfile } from './Doctor.entity.js';
 import { Specialty } from './Specialty.entity.js';
 
 /**
- * Phiếu chuyển tuyến = liên kết giữa ca và bác sĩ/khoa nhận. Bệnh nhân xác nhận thì cả ca bị xóa (CASCADE).
- * `viewed_at` có giá trị khi nơi nhận đã mở hồ sơ.
+ * Phiếu chuyển tuyến: chỉ là thông tin cho BỆNH NHÂN biết nên đến bác sĩ/khoa nào.
+ * Bác sĩ nhận không nhìn thấy ca. Bệnh nhân xác nhận thì cả ca bị xóa (CASCADE).
  */
 @Entity('referrals')
 @Index('IDX_referrals_case', ['caseId'])
@@ -47,9 +47,6 @@ export class Referral {
 
   @Column({ type: 'text' })
   reason: string;
-
-  @Column({ type: 'timestamptz', name: 'viewed_at', nullable: true })
-  viewedAt?: Date | null;
 
   @CreateDateColumn({ type: 'timestamptz', name: 'created_at' })
   createdAt: Date;

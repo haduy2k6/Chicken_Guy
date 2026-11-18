@@ -37,21 +37,16 @@ export class DoctorService {
   // ------------------------------------------------------------ phạm vi nhìn thấy (dùng chung hàng đợi, chi tiết, review)
 
   /**
-   * Bác sĩ thấy: ca CHỜ thuộc khoa mình; ca ĐÃ DUYỆT do mình kết luận;
-   * ca CHUYỂN TUYẾN gửi đến mình hoặc khoa mình (trừ ca chính mình chuyển đi: liên kết đã hủy).
+   * Bác sĩ chỉ thấy: ca CHỜ thuộc khoa mình, và ca ĐÃ DUYỆT do chính mình kết luận.
+   * Ca CHUYỂN TUYẾN là trạng thái kết thúc: liên kết với bác sĩ bị hủy, chỉ còn bệnh nhân thấy.
    */
   private visibleTo(qb: SelectQueryBuilder<MedicalCase>, d: DoctorCtx) {
     return qb.andWhere(
       new Brackets((w) => {
-        w.where('c.status = :pending AND c.specialtyId IN (:...sp)', { pending: CaseStatus.PENDING, sp: d.specialtyIds })
-          .orWhere('c.status = :reviewed AND c.assignedDoctorId = :me', { reviewed: CaseStatus.REVIEWED, me: d.id })
-          .orWhere(
-            `c.status = :escalated AND EXISTS (
-               SELECT 1 FROM referrals r
-                WHERE r.case_id = c.id AND r.from_doctor_id <> :me
-                  AND (r.to_doctor_id = :me OR r.to_specialty_id IN (:...sp)))`,
-            { escalated: CaseStatus.ESCALATED, me: d.id },
-          );
+        w.where('c.status = :pending AND c.specialtyId IN (:...sp)', { pending: CaseStatus.PENDING, sp: d.specialtyIds }).orWhere(
+          'c.status = :reviewed AND c.assignedDoctorId = :me',
+          { reviewed: CaseStatus.REVIEWED, me: d.id },
+        );
       }),
     );
   }
@@ -140,18 +135,7 @@ export class DoctorService {
       }),
     );
 
-    if (c.status === CaseStatus.ESCALATED) {
-      await this.ds
-        .createQueryBuilder()
-        .update(Referral)
-        .set({ viewedAt: () => 'now()' })
-        .where(
-          'case_id = :caseId AND viewed_at IS NULL AND from_doctor_id <> :me AND (to_doctor_id = :me OR to_specialty_id IN (:...sp))',
-          { caseId, me: d.id, sp: d.specialtyIds },
-        )
-        .execute();
-    }
-    void this.audit.log({ actorUserId: null, action: 'case.viewed', entityType: 'case', entityId: caseId, metadata: { doctorId: d.id } });
+    void this.audit.log({ actorUserId: d.userId, action: 'case.viewed', entityType: 'case', entityId: caseId, metadata: { doctorId: d.id } });
 
     const allStatuses = images.flatMap((i) => i.analyses.map((a) => a.status));
     const symptomKeys = INTAKE[c.specialty.code]?.symptomKeys ?? [];
@@ -172,7 +156,7 @@ export class DoctorService {
 
   async reviewPatientCase(d: DoctorCtx, caseId: string, dto: ReviewCaseDto) {
     const c = await this.findVisible(d, caseId);
-    if (c.status === CaseStatus.REVIEWED) throw conflict('Ca này đã có kết luận.', 'ALREADY_REVIEWED');
+    if (c.status !== CaseStatus.PENDING) throw conflict('Ca này đã có kết luận.', 'ALREADY_REVIEWED');
 
     const escalate = dto.status === 'escalated';
     const toDoctorId = escalate ? dto.referral?.toDoctorId : undefined;
@@ -187,15 +171,12 @@ export class DoctorService {
 
     await this.ds.transaction(async (m) => {
       // Optimistic lock: version đổi (bác sĩ khác vừa xử lý) → 0 dòng → 409. UpdateQueryBuilder tự tăng @VersionColumn.
+      // Chuyển tuyến: assigned_doctor_id = NULL, bác sĩ này hết liên kết với ca.
       const res = await m
         .createQueryBuilder()
         .update(MedicalCase)
         .set({ status: escalate ? CaseStatus.ESCALATED : CaseStatus.REVIEWED, assignedDoctorId: escalate ? null : d.id })
-        .where('id = :id AND version = :v AND status IN (:...st)', {
-          id: caseId,
-          v: dto.expectedVersion,
-          st: [CaseStatus.PENDING, CaseStatus.ESCALATED],
-        })
+        .where('id = :id AND version = :v AND status = :st', { id: caseId, v: dto.expectedVersion, st: CaseStatus.PENDING })
         .execute();
       if (!res.affected) throw conflict('Ca bệnh vừa được cập nhật ở nơi khác.', 'VERSION_CONFLICT');
 
@@ -207,8 +188,8 @@ export class DoctorService {
         assessmentData: (dto.assessmentData ?? {}) as any,
       });
 
-      await m.delete(Referral, { caseId }); // phiếu cũ (nếu có) được thay hoặc hết tác dụng
       if (escalate) {
+        // Phiếu chỉ để bệnh nhân biết nơi được chuyển đến
         await m.insert(Referral, { caseId, fromDoctorId: d.id, toDoctorId: toDoctorId ?? null, toSpecialtyId: toSpecialtyId ?? null, reason: dto.notes.trim() });
       } else if (followUpAt) {
         await this.scheduling.reserve(m, {
@@ -222,7 +203,7 @@ export class DoctorService {
       }
 
       await this.audit.log(
-        { actorUserId: null, action: 'review.created', entityType: 'case', entityId: caseId, metadata: { doctorId: d.id, decision: dto.status } },
+        { actorUserId: d.userId, action: 'review.created', entityType: 'case', entityId: caseId, metadata: { doctorId: d.id, decision: dto.status } },
         m,
       );
     });
@@ -243,7 +224,7 @@ export class DoctorService {
     }
   }
 
-  // ------------------------------------------------------------ đích chuyển tuyến
+  // ------------------------------------------------------------ đích chuyển tuyến (chỉ là nhãn hiển thị cho bệnh nhân)
 
   async getReferralTargets(d: DoctorCtx) {
     const [doctors, specialties] = await Promise.all([

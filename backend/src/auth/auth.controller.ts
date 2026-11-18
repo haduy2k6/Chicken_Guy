@@ -1,8 +1,10 @@
 import { randomUUID } from 'crypto';
-import { Controller, ForbiddenException, Get, HttpCode, Post, Req, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Controller, ForbiddenException, Get, HttpCode, Post, Req, Res, UnauthorizedException, UseFilters, UseGuards } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import type { Request, Response } from 'express';
 import { UserRole } from '../Entity-User/User.entity.js';
 import { REFRESH_COOKIE, ROLE_COOKIE, clearOptions, refreshCookieOptions, roleCookieOptions } from '../common/auth-cookie.util.js';
+import { GoogleCallbackFilter } from '../common/google-callback.filter.js';
 import { isAllowedOrigin } from '../common/safe-redirect.util.js';
 import { AccessGuard } from '../guard/accessToken.guard.js';
 import { GoogleGuard } from '../guard/google.guard.js';
@@ -36,8 +38,9 @@ export class AuthController {
   @UseGuards(GoogleGuard)
   async loginByGoogle() {}
 
-  /** Nonce đã được GoogleGuard xác minh; `req.oauthState` chứa locale/origin an toàn */
+  /** Nonce đã được GoogleGuard xác minh; `req.oauthState` chứa locale/origin an toàn. Lỗi đăng nhập → redirect ?auth=error */
   @Get('google/callback')
+  @UseFilters(GoogleCallbackFilter)
   @UseGuards(GoogleGuard)
   async googleCallback(@Req() req: any, @Res() res: Response) {
     const { locale, origin } = req.oauthState;
@@ -49,7 +52,9 @@ export class AuthController {
     return res.redirect(`${origin}/${locale}/${siteRole}?auth=success`);
   }
 
+  /** Mọi tab dùng chung cookie refresh: tab mới gọi endpoint này để lấy access token */
   @UseGuards(RefreshGuard)
+  @Throttle({ default: { limit: 30, ttl: 60_000 } })
   @Post('refresh')
   @HttpCode(200)
   async refresh(@Req() req: any, @Res({ passthrough: true }) res: Response) {

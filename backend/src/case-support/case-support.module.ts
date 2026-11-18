@@ -1,6 +1,5 @@
 // src/case-support/case-support.module.ts
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AiAnalysis } from '../Entity-User/AiAnalysis.entity.js';
 import { AuditLog } from '../Entity-User/AuditLog.entity.js';
@@ -11,7 +10,7 @@ import { StorageService } from './storage.service.js';
 
 /** Dịch vụ dùng chung cho patient và doctor: lưu ảnh, điều phối AI (client mỏng), nhật ký truy vết */
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([AiAnalysis, AuditLog])],
+  imports: [TypeOrmModule.forFeature([AiAnalysis, AuditLog])],
   controllers: [AiCallbackController],
   providers: [StorageService, AiAnalysisService, AuditService, AiCallbackGuard],
   exports: [StorageService, AiAnalysisService, AuditService],

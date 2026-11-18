@@ -2,9 +2,10 @@ import { Type } from 'class-transformer';
 import { IsIn, IsInt, IsISO8601, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID, MaxLength, Min, ValidateNested } from 'class-validator';
 
 export class QueueQueryDto {
+  /** Ca chuyển tuyến đã kết thúc với bác sĩ nên không còn trong hàng đợi */
   @IsOptional()
-  @IsIn(['all', 'pending', 'reviewed', 'escalated'])
-  status?: 'all' | 'pending' | 'reviewed' | 'escalated';
+  @IsIn(['all', 'pending', 'reviewed'])
+  status?: 'all' | 'pending' | 'reviewed';
 
   /** Mã khoa (vd 'oncology') hoặc 'all' */
   @IsOptional()

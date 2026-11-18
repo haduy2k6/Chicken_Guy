@@ -3,6 +3,7 @@ import {
   Body, CanActivate, Controller, ExecutionContext, HttpCode, Injectable, Post, UnauthorizedException, UseGuards, UsePipes, ValidationPipe,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { SkipThrottle } from '@nestjs/throttler';
 import { IsIn, IsNumber, IsObject, IsOptional, IsString, IsUUID, Max, MaxLength, Min } from 'class-validator';
 import { safeEqual } from '../common/auth-cookie.util.js';
 import { AiAnalysisService } from './ai-analysis.service.js';
@@ -39,8 +40,9 @@ export class AiResultDto {
   @IsOptional() @IsString() @MaxLength(1000) error_message?: string;
 }
 
-/** Chỉ cho FastAPI gọi (nên chặn thêm bằng mạng riêng / IP allowlist ở tầng hạ tầng) */
+/** Chỉ cho FastAPI gọi (nên chặn thêm bằng mạng riêng / IP allowlist ở tầng hạ tầng). Đã có khóa bí mật nên bỏ giới hạn tần suất. */
 @Controller('internal/ai')
+@SkipThrottle()
 @UseGuards(AiCallbackGuard)
 @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
 export class AiCallbackController {

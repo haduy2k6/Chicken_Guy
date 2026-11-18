@@ -13,10 +13,10 @@ import { AiAnalysisService } from '../case-support/ai-analysis.service.js';
 import { AuditService } from '../case-support/audit.service.js';
 import { INTAKE, IntakeDef, validateIntake } from '../case-support/intake-schema.js';
 import { StorageService } from '../case-support/storage.service.js';
+import { IMAGE_EXT, sniffImageMime } from '../common/image-type.util.js';
 import { doctorLabel } from '../scheduling/scheduling.service.js';
 import { QuotaCase, buildQuota } from './case-quota.util.js';
 
-const EXT: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif' };
 const isActive = (a: Appointment) => a.status === AppointmentStatus.SCHEDULED || a.status === AppointmentStatus.CONFIRMED;
 const byNewest = <T extends { createdAt: Date }>(list: T[]) => [...list].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
@@ -47,12 +47,13 @@ export class PatientService {
         reviews: { doctor: { user: true } },
         referrals: { toDoctor: { user: true }, toSpecialty: true },
         appointments: { doctor: { user: true } },
+        images: { analyses: true },
       },
       order: { createdAt: 'DESC' },
     });
 
     const now = Date.now();
-    const items = cases.map((c) => {
+    const items = await Promise.all(cases.map(async (c) => {
       const review = byNewest(c.reviews)[0];
       const referral = c.status === CaseStatus.ESCALATED ? byNewest(c.referrals)[0] : undefined;
       const active = c.appointments.filter(isActive).sort((a, b) => a.scheduledAt.getTime() - b.scheduledAt.getTime());
@@ -78,7 +79,6 @@ export class PatientService {
         referral: referral
           ? {
               id: referral.id,
-              status: referral.viewedAt ? 'viewed' : 'pending',
               reason: referral.reason,
               targetLabel: referral.toDoctor
                 ? `${doctorLabel(referral.toDoctor)}${referral.toDoctor.hospital ? ` – ${referral.toDoctor.hospital}` : ''}`
@@ -97,8 +97,18 @@ export class PatientService {
               note: appt.note ?? null,
             }
           : null,
+        results: await Promise.all(c.images.map(async (image) => {
+          const analysis = [...image.analyses].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0];
+          return {
+            imageUrl: await this.storage.signedUrl(image.storageKey),
+            status: analysis?.status ?? null,
+            riskScore: analysis?.riskScore ?? null,
+            predictedLabel: analysis?.predictedLabel ?? null,
+            gradcamUrl: analysis?.gradcamStorageKey ? await this.storage.signedUrl(analysis.gradcamStorageKey) : null,
+          };
+        })),
       };
-    });
+    }));
 
     return { items, quota: buildQuota(toQuotaCases(cases)) };
   }
@@ -112,14 +122,16 @@ export class PatientService {
     if (def.requiresImages && files.length === 0) throw new BadRequestException('Cần tải lên ít nhất 1 ảnh');
 
     const caseId = randomUUID();
-    const uploads = files.map((file) => ({
-      file,
-      key: `cases/${caseId}/images/${randomUUID()}.${EXT[file.mimetype] ?? 'img'}`,
-    }));
+    // Loại ảnh lấy từ nội dung thật, không tin mimetype client khai
+    const uploads = files.map((file) => {
+      const mime = sniffImageMime(file.buffer);
+      if (!mime) throw new BadRequestException(`Tệp "${file.originalname.slice(0, 80)}" không phải ảnh JPEG, PNG hoặc WebP hợp lệ`);
+      return { file, mime, key: `cases/${caseId}/images/${randomUUID()}.${IMAGE_EXT[mime]}` };
+    });
 
     try {
       // Ảnh phải nằm trong bucket trước khi tạo ca vì FastAPI tự đọc theo khóa
-      await Promise.all(uploads.map((u) => this.storage.put(u.key, u.file.buffer, u.file.mimetype)));
+      await Promise.all(uploads.map((u) => this.storage.put(u.key, u.file.buffer, u.mime)));
 
       const out = await this.ds.transaction(async (m) => {
         const profile = await this.lockOrCreateProfile(m, userId, String(intake.gender));
@@ -150,7 +162,7 @@ export class PatientService {
               caseId,
               kind: def.imageKind,
               storageKey: u.key,
-              mimeType: u.file.mimetype,
+              mimeType: u.mime,
               originalName: u.file.originalname.slice(0, 255),
               sizeBytes: u.file.size,
             }),

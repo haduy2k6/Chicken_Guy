@@ -6,6 +6,8 @@ import { DoctorProfile } from '../Entity-User/Doctor.entity.js';
 export interface DoctorCtx {
   /** doctor_profiles.id */
   id: string;
+  /** users.id: dùng cho audit log */
+  userId: string;
   specialtyIds: string[];
 }
 
@@ -25,7 +27,7 @@ export class VerifiedDoctorGuard implements CanActivate {
       throw new ForbiddenException('Tài khoản bác sĩ chưa được xác minh chuyên khoa và giấy phép hành nghề');
     }
 
-    const doctor: DoctorCtx = { id: profile.id, specialtyIds: profile.specialties.map((s) => s.id) };
+    const doctor: DoctorCtx = { id: profile.id, userId: profile.userId, specialtyIds: profile.specialties.map((s) => s.id) };
     req.user.doctor = doctor;
     return true;
   }
