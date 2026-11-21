@@ -1,21 +1,26 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Search, Filter, Loader2 } from "lucide-react";
 import { usePublicDoctors } from "@/src/query/useScheduleQueries";
 import { DoctorCard } from "./DoctorCard";
 
-const FILTERS = [
-  { id: "all", label: "Tất cả" },
-  { id: "oncology", label: "Ung bướu" },
-  { id: "nephrology", label: "Thận - Tiết niệu" },
-  { id: "cardiology", label: "Tim mạch" },
-];
-
 export function DoctorDirectory() {
+  const t = useTranslations("DoctorDirectory");
   const { data: doctors = [], isLoading, error } = usePublicDoctors();
   const [activeFilter, setActiveFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+
+  const filters = useMemo(
+    () => [
+      { id: "all", label: t("all") },
+      { id: "oncology", label: t("oncology") },
+      { id: "nephrology", label: t("nephrology") },
+      { id: "cardiology", label: t("cardiology") },
+    ],
+    [t]
+  );
 
   const filtered = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();
@@ -37,7 +42,7 @@ export function DoctorDirectory() {
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
           <input
             type="text"
-            placeholder="Tìm theo tên bác sĩ, bệnh viện, chuyên khoa..."
+            placeholder={t("searchPlaceholder")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-300 text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-cyan-600"
@@ -47,9 +52,9 @@ export function DoctorDirectory() {
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-1.5 text-xs font-bold text-stone-500 mr-1">
             <Filter className="w-3.5 h-3.5" />
-            <span>Chuyên khoa:</span>
+            <span>{t("specialtyFilter")}</span>
           </div>
-          {FILTERS.map((tab) => (
+          {filters.map((tab) => (
             <button
               key={tab.id}
               type="button"
@@ -70,7 +75,7 @@ export function DoctorDirectory() {
         </div>
       ) : error ? (
         <div role="alert" className="text-center py-12 bg-white rounded-3xl border border-red-200 text-red-700 text-sm">
-          Không tải được danh sách bác sĩ. Vui lòng thử lại sau.
+          {t("error")}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -80,7 +85,7 @@ export function DoctorDirectory() {
 
       {!isLoading && !error && filtered.length === 0 && (
         <div className="text-center py-12 bg-white rounded-3xl border border-stone-200 text-stone-500 text-sm">
-          Không tìm thấy bác sĩ phù hợp với tiêu chí tìm kiếm.
+          {t("notFound")}
         </div>
       )}
     </div>

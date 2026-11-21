@@ -4,8 +4,8 @@ export function makeQueryClient(): QueryClient {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 90 * 1000,
-        gcTime: 10 * 60 * 1000,
+        staleTime: 60 * 1000,
+        gcTime: 3 * 60 * 1000, // Thu hồi bộ nhớ truy vấn không dùng sau 3 phút
         retry: (failureCount, error: unknown) => {
           const status = (error as { response?: { status?: number } })?.response?.status;
           if (status === 401 || status === 403) return false;

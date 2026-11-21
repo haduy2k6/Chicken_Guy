@@ -38,7 +38,7 @@ export default function Footer() {
           <ul className="space-y-2 text-xs">
             <li><Link href={APP_ROUTES.SPECIALTIES.ONCOLOGY} className={linkCls}>{t("patient.sendImage")}</Link></li>
             <li><Link href={APP_ROUTES.SPECIALTIES.ONCOLOGY} className={linkCls}>{t("patient.warningSigns")}</Link></li>
-            <li><Link href={APP_ROUTES.APPOINTMENTS} className={linkCls}>Lịch khám & Bệnh án</Link></li>
+            <li><Link href={APP_ROUTES.APPOINTMENTS} className={linkCls}>{t("patient.schedule")}</Link></li>
             <li className="text-stone-400">{t("patient.anonymity")}</li>
           </ul>
         </div>
@@ -46,11 +46,11 @@ export default function Footer() {
         <div className="space-y-3">
           <h4 className="text-sm font-bold text-white uppercase tracking-wider">{t("doctor.title")}</h4>
           <ul className="space-y-2 text-xs">
-            <li><Link href={APP_ROUTES.DOCTORS} className={linkCls}>Đội ngũ bác sĩ</Link></li>
+            <li><Link href={APP_ROUTES.DOCTORS} className={linkCls}>{t("doctor.team")}</Link></li>
             {/* Lịch trực và ca bệnh nằm ở bàn làm việc bác sĩ; /appointments chỉ dành cho bệnh nhân */}
-            <li><Link href={APP_ROUTES.DOCTOR} className={linkCls}>Lịch trực & ca bệnh</Link></li>
-            <li><Link href={APP_ROUTES.SPECIALTIES.NEPHROLOGY} className={linkCls}>Hội chẩn thận học</Link></li>
-            <li><Link href={APP_ROUTES.SPECIALTIES.CARDIOLOGY} className={linkCls}>Hội chẩn tim mạch</Link></li>
+            <li><Link href={APP_ROUTES.DOCTOR} className={linkCls}>{t("doctor.shifts")}</Link></li>
+            <li><Link href={APP_ROUTES.SPECIALTIES.NEPHROLOGY} className={linkCls}>{t("doctor.nephrology")}</Link></li>
+            <li><Link href={APP_ROUTES.SPECIALTIES.CARDIOLOGY} className={linkCls}>{t("doctor.cardiology")}</Link></li>
           </ul>
         </div>
 

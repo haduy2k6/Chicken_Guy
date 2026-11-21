@@ -8,7 +8,9 @@ async function bootstrap() {
   allowedOrigins(); // fail-fast: production thiếu FRONT_ORIGINS thì dừng ngay khi khởi động
 
   const app = await NestFactory.create(AppModule);
-  app.getHttpAdapter().getInstance().set('trust proxy', 1);
+  const httpInstance = app.getHttpAdapter().getInstance();
+  httpInstance.set('trust proxy', 1);
+  httpInstance.disable('x-powered-by');
   app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
   app.use(cookieParser());
   app.enableCors({

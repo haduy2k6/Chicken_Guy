@@ -13,7 +13,12 @@
       "signIn": "Sign In",
       "signOut": "Sign Out",
       "SignOut": "Sign Out",
-      "myHistory": "Medical History"
+      "myHistory": "Medical History",
+      "doctorAccount": "Doctor Account",
+      "patientAccount": "Patient Account",
+      "doctorWorkspace": "Doctor Workspace",
+      "cancerScreening": "Oncology Screening",
+      "mainFeatures": "Main Features"
     },
     "Preface": {
       "s1Left": "Listen to and care for yourself every day",
@@ -62,7 +67,8 @@
           "mockName": "Security Architecture",
           "mockRole": "AES-256 & Anonymized"
         }
-      }
+      },
+      "videoNotSupported": "Your browser does not support the video tag."
     },
     "Trust": {
       "accuracy": {
@@ -186,7 +192,11 @@
           "param1": "Advisory boards across ENT, Oncology, and Nephrology collaboratively examine complex patient profiles.",
           "param2": "Every diagnosis, recommendation, and clinical pathway is verified and signed off by certified physicians.",
           "param3": "Medical data and AI models are continuously evaluated against stringent international healthcare standards."
-        }
+        },
+        "viewAll": "View all specialist doctors",
+        "experience": "Experience:",
+        "years": "{count} years",
+        "bookAppointment": "Book Appointment"
       }
     },
     "Footer": {
@@ -202,14 +212,19 @@
         "sendImage": "Upload Endoscopy Image",
         "warningSigns": "Early Warning Symptoms",
         "photoGuide": "Image Capture Guide",
-        "anonymity": "Strict Data Anonymization"
+        "anonymity": "Strict Data Anonymization",
+        "schedule": "Appointments & Medical Records"
       },
       "doctor": {
         "title": "Doctors",
         "caseIntake": "Patient Intake Portal",
         "aiCompare": "AI Diagnostic Review",
         "tnm": "TNM Staging (AJCC-8)",
-        "consult": "Inter-hospital Consultation"
+        "consult": "Inter-hospital Consultation",
+        "team": "Medical Team",
+        "shifts": "On-call & Cases",
+        "nephrology": "Nephrology Consultation",
+        "cardiology": "Cardiology Consultation"
       },
       "support": {
         "title": "Emergency Support",
@@ -278,6 +293,61 @@
         "swallowing": "Difficulty Swallowing",
         "patches": "White or Red Patches in Mouth"
       }
+    },
+    "quotaUsed": "Used {used}/{max} case submissions."
+  },
+  "Auth": {
+    "close": "Close",
+    "title": "Sign In to System",
+    "subtitle": "Multi-Specialty AI Health Platform: Oncology, Nephrology & Cardiology",
+    "googleButton": "Sign in with Google",
+    "encryptionNotice": "Medical data is encrypted and strictly confidential"
+  },
+  "DoctorDirectory": {
+    "searchPlaceholder": "Search by doctor name, hospital, specialty...",
+    "specialtyFilter": "Specialty:",
+    "all": "All",
+    "oncology": "Oncology",
+    "nephrology": "Nephrology",
+    "cardiology": "Cardiology",
+    "error": "Unable to load doctors list. Please try again later.",
+    "notFound": "No doctors found matching search criteria."
+  },
+  "DoctorSchedule": {
+    "workSchedule": "Weekly Work Schedule",
+    "upcomingAppointments": "Upcoming Appointments",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "casesCount": "{count}/{max} cases",
+    "saveWeek": "Save this week schedule",
+    "saved": "Saved.",
+    "noAppointments": "No upcoming appointments."
+  },
+  "AppointmentsWorkspace": {
+    "profileOf": "Profile of {name}",
+    "defaultPatient": "Patient",
+    "patientAccount": "Patient Account",
+    "usedQuota": "Used {used}/{max} submissions",
+    "quotaBlocked": "Quota reached: please confirm referral or await appointment completion to submit a new case.",
+    "newScreening": "New Screening",
+    "upcomingTitle": "Upcoming Appointments",
+    "recordsTitle": "Medical Records",
+    "confirmed": "Confirmed",
+    "scheduled": "Scheduled",
+    "attendingDoctor": "Attending Doctor",
+    "status": {
+      "pending": "Awaiting Doctor",
+      "reviewed": "Reviewed",
+      "escalated": "Specialist Visit Needed"
     }
+  },
+  "BookAppointment": {
+    "openButton": "Book Follow-up Appointment",
+    "chooseDate": "Select Date",
+    "close": "Close",
+    "searching": "Searching available doctors...",
+    "noAvailable": "No doctors available on this day. Please pick another date.",
+    "morning": "Morning (8AM–11AM)",
+    "afternoon": "Afternoon (2PM–5PM)"
   }
 }

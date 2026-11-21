@@ -26,7 +26,10 @@ __pycache__/
 *.py[cod]
 web-.zip
 
-# Generated model-training artifacts; retain reports and manifests
+# Model weights (too large for git, stored on Hugging Face Hub)
+*.pth
+**/*.pth
+ai-service/A/*.pth
 ai-service/ResultAI/**/runs/
 ai-service/ResultAI/**/*.db
 ai-service/ResultAI/**/*.pth

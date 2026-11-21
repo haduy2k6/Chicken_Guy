@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
     agentFeedback: true,
+    optimizePackageImports: ["lucide-react", "@heroui/react", "framer-motion", "gsap"],
   },
   turbopack: {
     rules: {

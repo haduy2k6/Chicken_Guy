@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useAuthStore } from "@/src/stores/authStore";
 import { useUiStore } from "@/src/stores/uiStore";
 import { authService } from "@/src/features/auth/auth.service";
@@ -14,6 +15,7 @@ export function MenuAuthActions({ signInLabel, signOutLabel, historyLabel }: {
   signOutLabel: string;
   historyLabel: string;
 }) {
+  const t = useTranslations("Home.Menu");
   const router = useRouter();
   const user = useAuthStore((s) => s.user);
   const setSignInPopUp = useUiStore((s) => s.setSignInPopUp);
@@ -53,7 +55,7 @@ export function MenuAuthActions({ signInLabel, signOutLabel, historyLabel }: {
           <p className="text-xs font-bold text-stone-900 truncate">{user.name}</p>
           {user.email && <p className="text-[11px] text-stone-500 truncate">{user.email}</p>}
           <p className="text-[10px] font-semibold text-cyan-700 mt-0.5">
-            {isDoctor ? "Tài khoản Bác sĩ" : "Tài khoản Bệnh nhân"}
+            {isDoctor ? t("doctorAccount") : t("patientAccount")}
           </p>
         </div>
 
@@ -63,9 +65,9 @@ export function MenuAuthActions({ signInLabel, signOutLabel, historyLabel }: {
             else router.push(String(key));
           }}
         >
-          <Dropdown.Item id={isDoctor ? APP_ROUTES.DOCTOR : APP_ROUTES.PATIENT} textValue="Chức năng chính">
+          <Dropdown.Item id={isDoctor ? APP_ROUTES.DOCTOR : APP_ROUTES.PATIENT} textValue={t("mainFeatures")}>
             {isDoctor ? <Stethoscope className="w-3.5 h-3.5 text-cyan-700" /> : <Sparkles className="w-3.5 h-3.5 text-amber-600" />}
-            <Label>{isDoctor ? "Bàn làm việc Bác sĩ" : "Sàng lọc Ung thư Vòm họng"}</Label>
+            <Label>{isDoctor ? t("doctorWorkspace") : t("cancerScreening")}</Label>
           </Dropdown.Item>
 
           {!isDoctor ? (

@@ -38,6 +38,10 @@ export default registerAs(
     ssl: sslOption(),
     // Chỉ tự đồng bộ schema ở development; production dùng migration (hoặc DB_SYNC=true rõ ràng)
     synchronize: process.env.DB_SYNC ? process.env.DB_SYNC === 'true' : process.env.NODE_ENV === 'development',
-    extra: { max: 10 },
+    extra: {
+      max: 10,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 5000,
+    },
   }),
 );

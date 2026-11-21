@@ -53,7 +53,7 @@ export default function Menu() {
       <div className="flex items-center">
         <Link href={APP_ROUTES.HOME} className="flex items-center gap-2">
           <Image
-            src="/t.svg"
+            src="/r.svg"
             alt="Chicken Guy Healthcare"
             width={140}
             height={60}

@@ -107,6 +107,7 @@ export function UploadStep() {
 }
 
 function QuotaNotice({ quota }: { quota: QuotaState & { known: boolean } }) {
+  const t = useTranslations("Patient");
   if (!quota.known || quota.used === 0) return null;
 
   if (quota.blocked) {
@@ -129,7 +130,7 @@ function QuotaNotice({ quota }: { quota: QuotaState & { known: boolean } }) {
 
   return (
     <p className="text-xs text-amber-900/70">
-      Đã dùng {quota.used}/{quota.max} lượt gửi hồ sơ.
+      {t("quotaUsed", { used: quota.used, max: quota.max })}
     </p>
   );
 }

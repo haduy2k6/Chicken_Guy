@@ -13,7 +13,12 @@
       "signIn": "Đăng nhập",
       "signOut": "Đăng xuất",
       "SignOut": "Đăng xuất",
-      "myHistory": "Lịch sử khám"
+      "myHistory": "Lịch sử khám",
+      "doctorAccount": "Tài khoản Bác sĩ",
+      "patientAccount": "Tài khoản Bệnh nhân",
+      "doctorWorkspace": "Bàn làm việc Bác sĩ",
+      "cancerScreening": "Sàng lọc Ung thư Vòm họng",
+      "mainFeatures": "Chức năng chính"
     },
     "Preface": {
       "s1Left": "Hãy yêu thương và lắng nghe bản thân mỗi ngày",
@@ -62,7 +67,8 @@
           "mockName": "Cơ chế bảo mật",
           "mockRole": "Mã hóa AES-256 & Ẩn danh"
         }
-      }
+      },
+      "videoNotSupported": "Trình duyệt của bạn không hỗ trợ thẻ video."
     },
     "Trust": {
       "accuracy": {
@@ -186,7 +192,11 @@
           "param1": "Hội đồng y bác sĩ Tai Mũi Họng, Ung bướu và Thận Tiết niệu cùng tham gia đánh giá các ca bệnh phức tạp.",
           "param2": "Mọi phác đồ can thiệp và chỉ định lâm sàng đều được bác sĩ chuyên khoa kiểm duyệt và ký xác nhận chính thức.",
           "param3": "Dữ liệu và mô hình AI được kiểm định liên tục theo các tiêu chuẩn y tế quốc tế khắt khe."
-        }
+        },
+        "viewAll": "Xem tất cả danh sách bác sĩ chuyên khoa",
+        "experience": "Kinh nghiệm:",
+        "years": "{count} năm",
+        "bookAppointment": "Đặt lịch khám"
       }
     },
     "Footer": {
@@ -202,14 +212,19 @@
         "sendImage": "Gửi ảnh soi vòm họng",
         "warningSigns": "Dấu hiệu cảnh báo sớm",
         "photoGuide": "Hướng dẫn chụp ảnh chuẩn",
-        "anonymity": "Cam kết ẩn danh dữ liệu"
+        "anonymity": "Cam kết ẩn danh dữ liệu",
+        "schedule": "Lịch khám & Bệnh án"
       },
       "doctor": {
         "title": "Bác Sĩ",
         "caseIntake": "Cổng tiếp nhận ca bệnh",
         "aiCompare": "Đối chiếu phân tích AI",
         "tnm": "Phân loại TNM (AJCC-8)",
-        "consult": "Hội chẩn liên viện"
+        "consult": "Hội chẩn liên viện",
+        "team": "Đội ngũ bác sĩ",
+        "shifts": "Lịch trực & ca bệnh",
+        "nephrology": "Hội chẩn thận học",
+        "cardiology": "Hội chẩn tim mạch"
       },
       "support": {
         "title": "Hỗ Trợ Khẩn",
@@ -278,6 +293,61 @@
         "swallowing": "Khó nuốt",
         "patches": "Mảng trắng / đỏ trong miệng"
       }
+    },
+    "quotaUsed": "Đã dùng {used}/{max} lượt gửi hồ sơ."
+  },
+  "Auth": {
+    "close": "Đóng",
+    "title": "Đăng Nhập Hệ Thống",
+    "subtitle": "Nền tảng Y Tế AI Đa Chuyên Khoa: Ung Thư Vòm Họng, Thận & Tim Mạch",
+    "googleButton": "Đăng nhập nhanh bằng Google",
+    "encryptionNotice": "Dữ liệu y tế được mã hóa và bảo mật"
+  },
+  "DoctorDirectory": {
+    "searchPlaceholder": "Tìm theo tên bác sĩ, bệnh viện, chuyên khoa...",
+    "specialtyFilter": "Chuyên khoa:",
+    "all": "Tất cả",
+    "oncology": "Ung bướu",
+    "nephrology": "Thận - Tiết niệu",
+    "cardiology": "Tim mạch",
+    "error": "Không tải được danh sách bác sĩ. Vui lòng thử lại sau.",
+    "notFound": "Không tìm thấy bác sĩ phù hợp với tiêu chí tìm kiếm."
+  },
+  "DoctorSchedule": {
+    "workSchedule": "Lịch làm việc tuần",
+    "upcomingAppointments": "Lịch hẹn sắp tới",
+    "morning": "Sáng",
+    "afternoon": "Chiều",
+    "casesCount": "{count}/{max} ca",
+    "saveWeek": "Lưu lịch tuần này",
+    "saved": "Đã lưu.",
+    "noAppointments": "Chưa có lịch hẹn nào."
+  },
+  "AppointmentsWorkspace": {
+    "profileOf": "Hồ Sơ Của {name}",
+    "defaultPatient": "Bệnh Nhân",
+    "patientAccount": "Tài khoản bệnh nhân",
+    "usedQuota": "Đã dùng {used}/{max} lượt gửi",
+    "quotaBlocked": "Đủ lượt: hãy xác nhận chuyển tuyến hoặc chờ hoàn tất lịch hẹn để gửi hồ sơ mới.",
+    "newScreening": "Sàng Lọc Mới",
+    "upcomingTitle": "Lịch hẹn sắp tới",
+    "recordsTitle": "Hồ sơ bệnh án",
+    "confirmed": "Đã xác nhận",
+    "scheduled": "Đã hẹn",
+    "attendingDoctor": "Bác sĩ phụ trách",
+    "status": {
+      "pending": "Đang chờ bác sĩ",
+      "reviewed": "Đã có kết luận",
+      "escalated": "Cần khám chuyên khoa"
     }
+  },
+  "BookAppointment": {
+    "openButton": "Đặt lịch tái khám",
+    "chooseDate": "Chọn ngày",
+    "close": "Đóng",
+    "searching": "Đang tìm bác sĩ đang làm việc...",
+    "noAvailable": "Không có bác sĩ nào còn lịch trống ngày này. Hãy chọn ngày khác.",
+    "morning": "Sáng (8h–11h)",
+    "afternoon": "Chiều (14h–17h)"
   }
 }

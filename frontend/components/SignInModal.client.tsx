@@ -1,10 +1,12 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { X, User, ShieldCheck } from "lucide-react";
 import { useUiStore } from "@/src/stores/uiStore";
 import { GoogleSignInButton } from "./GoogleSignInButton.client";
 
 export function SignInModal() {
+  const t = useTranslations("Auth");
   const open = useUiStore((s) => s.signInPopUp);
   const setOpen = useUiStore((s) => s.setSignInPopUp);
 
@@ -18,7 +20,7 @@ export function SignInModal() {
       >
         <button
           type="button"
-          aria-label="Đóng"
+          aria-label={t("close")}
           onClick={() => setOpen(false)}
           className="absolute top-5 right-5 p-2 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-800 transition-colors cursor-pointer"
         >
@@ -29,18 +31,18 @@ export function SignInModal() {
           <div className="w-12 h-12 mx-auto rounded-2xl bg-linear-to-tr from-cyan-600 to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-cyan-600/30 mb-3">
             <User className="w-6 h-6" />
           </div>
-          <h2 className="text-xl font-black text-stone-900">Đăng Nhập Hệ Thống</h2>
-          <p className="text-xs text-stone-500">Nền tảng Y Tế AI Đa Chuyên Khoa: Ung Thư Vòm Họng, Thận & Tim Mạch</p>
+          <h2 className="text-xl font-black text-stone-900">{t("title")}</h2>
+          <p className="text-xs text-stone-500">{t("subtitle")}</p>
         </div>
 
         <GoogleSignInButton
-          label="Đăng nhập nhanh bằng Google"
+          label={t("googleButton")}
           className="w-full px-3 py-3 bg-stone-50 border border-stone-200 rounded-xl text-stone-700 text-sm font-semibold hover:bg-stone-100 shadow-xs"
         />
 
         <p className="text-[11px] text-center text-stone-400 mt-5 flex items-center justify-center gap-1.5">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-          Dữ liệu y tế được mã hóa và bảo mật
+          {t("encryptionNotice")}
         </p>
       </section>
     </div>

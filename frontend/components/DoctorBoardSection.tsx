@@ -36,7 +36,7 @@ export default function DoctorBoardSection() {
           href={APP_ROUTES.DOCTORS}
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-stone-300 hover:border-stone-900 text-stone-900 font-bold text-xs sm:text-sm shadow-sm transition-all hover:shadow-md"
         >
-          <span>Xem tất cả danh sách bác sĩ chuyên khoa</span>
+          <span>{t("viewAll")}</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

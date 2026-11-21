@@ -5,6 +5,7 @@ import {
   AlertTriangle, ArrowRight, CalendarCheck, CheckCircle2, Clock, FileText, Loader2,
   PlusCircle, RefreshCw, Share2, ShieldCheck, Stethoscope,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/src/i18n/routing";
 import { APP_ROUTES } from "@/src/config/routes.config";
 import { useAuthStore } from "@/src/stores/authStore";
@@ -15,22 +16,23 @@ import { errMsg } from "@/src/lib/httpError";
 import { formatAiLabel } from "@/src/lib/formatAiLabel";
 import { BookAppointment } from "./BookAppointment.client";
 
-const STATUS_META: Record<CaseStatus, { label: string; className: string }> = {
-  pending: { label: "Đang chờ bác sĩ", className: "bg-amber-100 text-amber-900" },
-  reviewed: { label: "Đã có kết luận", className: "bg-emerald-100 text-emerald-900" },
-  escalated: { label: "Cần khám chuyên khoa", className: "bg-rose-100 text-rose-900" },
-};
-
 const isActiveAppt = (a: PatientHistoryAppointment | null): a is PatientHistoryAppointment =>
   !!a && (a.status === "scheduled" || a.status === "confirmed");
 const EMPTY_HISTORY: PatientHistoryItem[] = [];
 
 /** Trang này được bọc <RoleGate role="patient">, nên ở đây luôn có bệnh nhân đã đăng nhập */
 export function AppointmentsWorkspace() {
+  const t = useTranslations("AppointmentsWorkspace");
   const user = useAuthStore((s) => s.user);
   const { data, isLoading, error, refetch, isFetching } = usePatientHistoryQuery();
   const history = data?.items ?? EMPTY_HISTORY;
   const quota = data?.quota;
+
+  const statusMeta: Record<CaseStatus, { label: string; className: string }> = {
+    pending: { label: t("status.pending"), className: "bg-amber-100 text-amber-900" },
+    reviewed: { label: t("status.reviewed"), className: "bg-emerald-100 text-emerald-900" },
+    escalated: { label: t("status.escalated"), className: "bg-rose-100 text-rose-900" },
+  };
 
   const upcoming = useMemo(() => {
     return history
@@ -42,16 +44,16 @@ export function AppointmentsWorkspace() {
     <div className="w-full max-w-3xl space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-stone-200/80 shadow-xs">
         <div className="space-y-1">
-          <h2 className="text-xl font-black text-stone-900">Hồ Sơ Của {user?.name || "Bệnh Nhân"}</h2>
+          <h2 className="text-xl font-black text-stone-900">{t("profileOf", { name: user?.name || t("defaultPatient") })}</h2>
           <p className="text-xs text-stone-500">
-            {user?.email || "Tài khoản bệnh nhân"}
-            {quota ? ` • Đã dùng ${quota.used}/${quota.max} lượt gửi` : ""}
+            {user?.email || t("patientAccount")}
+            {quota ? ` • ${t("usedQuota", { used: quota.used, max: quota.max })}` : ""}
           </p>
         </div>
 
         {quota?.blocked ? (
           <span className="text-xs font-semibold text-rose-800 max-w-56">
-            Đủ lượt: hãy xác nhận chuyển tuyến hoặc chờ hoàn tất lịch hẹn để gửi hồ sơ mới.
+            {t("quotaBlocked")}
           </span>
         ) : (
           <Link
@@ -59,16 +61,16 @@ export function AppointmentsWorkspace() {
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all shadow-xs"
           >
             <PlusCircle className="w-4 h-4" />
-            <span>Sàng Lọc Mới</span>
+            <span>{t("newScreening")}</span>
           </Link>
         )}
       </div>
 
       {upcoming.length > 0 && (
-        <section className="space-y-3" aria-label="Lịch hẹn sắp tới">
+        <section className="space-y-3" aria-label={t("upcomingTitle")}>
           <h3 className="text-sm font-black text-stone-900 flex items-center gap-2">
             <CalendarCheck className="w-4 h-4 text-cyan-700" />
-            Lịch hẹn sắp tới
+            {t("upcomingTitle")}
           </h3>
           {upcoming.map((item) => {
             const a = item.appointment!;
@@ -77,13 +79,13 @@ export function AppointmentsWorkspace() {
                 <div className="space-y-0.5">
                   <p className="text-sm font-bold text-stone-900">{fmtDateTime(a.scheduledAt)}</p>
                   <p className="text-xs text-stone-600">
-                    {a.doctorName ? a.doctorName : "Bác sĩ phụ trách"}
+                    {a.doctorName ? a.doctorName : t("attendingDoctor")}
                     {a.hospital ? ` • ${a.hospital}` : ""}
                   </p>
                   {a.note && <p className="text-xs text-stone-500">{a.note}</p>}
                 </div>
                 <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-cyan-100 text-cyan-900 uppercase tracking-wider shrink-0">
-                  {a.status === "confirmed" ? "Đã xác nhận" : "Đã hẹn"}
+                  {a.status === "confirmed" ? t("confirmed") : t("scheduled")}
                 </span>
               </div>
             );
@@ -91,10 +93,10 @@ export function AppointmentsWorkspace() {
         </section>
       )}
 
-      <section className="space-y-4" aria-label="Hồ sơ bệnh án">
+      <section className="space-y-4" aria-label={t("recordsTitle")}>
         <h3 className="text-sm font-black text-stone-900 flex items-center gap-2">
           <FileText className="w-4 h-4 text-amber-700" />
-          Hồ sơ bệnh án
+          {t("recordsTitle")}
         </h3>
 
         {isLoading ? (
@@ -124,14 +126,14 @@ export function AppointmentsWorkspace() {
             </p>
             <div className="pt-2">
               <Link href={APP_ROUTES.PATIENT} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-stone-900 text-white text-xs font-bold hover:bg-stone-800">
-                <span>Bắt Đầu Tầm Soát</span>
+                <span>{t("newScreening")}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>
         ) : (
           history.map((item) => (
-            <CaseCard key={item.id} item={item} eviction={quota?.eviction?.caseId === item.id ? quota.eviction : null} />
+            <CaseCard key={item.id} item={item} statusMeta={statusMeta} eviction={quota?.eviction?.caseId === item.id ? quota.eviction : null} />
           ))
         )}
       </section>
@@ -139,10 +141,10 @@ export function AppointmentsWorkspace() {
   );
 }
 
-function CaseCard({ item, eviction }: { item: PatientHistoryItem; eviction: QuotaState["eviction"] }) {
+function CaseCard({ item, statusMeta, eviction }: { item: PatientHistoryItem; statusMeta: Record<CaseStatus, { label: string; className: string }>; eviction: QuotaState["eviction"] }) {
   const confirmReferral = useConfirmReferralMutation();
   const [armed, setArmed] = useState(false);
-  const meta = STATUS_META[item.status];
+  const meta = statusMeta[item.status];
   const appt = isActiveAppt(item.appointment) ? item.appointment : null;
 
   return (
