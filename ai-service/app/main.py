@@ -16,15 +16,17 @@ import torch.nn.functional as F
 import timm
 from dotenv import load_dotenv
 from fastapi import BackgroundTasks, FastAPI, Header, HTTPException
+from huggingface_hub import hf_hub_download
 from PIL import Image, ImageOps
 from pydantic import BaseModel, Field, HttpUrl
 
 LOGGER = logging.getLogger("ai-service")
 load_dotenv()
-MODEL_PATH = os.getenv("AI_MODEL_PATH", "A/final_resnest26d.pth")
+MODEL_PATH = os.getenv("AI_MODEL_PATH", "A/final_convnext_tiny.pth")
 DEVICE = torch.device("cuda" if torch.cuda.is_available() and os.getenv("AI_DEVICE", "auto") != "cpu" else "cpu")
-MODEL_NAME = "resnest26d-npc-ensemble"
-MODEL_VERSION = os.getenv("AI_MODEL_VERSION", "resnest26d-ensemble-v2")
+MODEL_NAME = "npc-image-ensemble"
+model_arch = "convnext_tiny"
+MODEL_VERSION = os.getenv("AI_MODEL_VERSION", "convnext_tiny-ensemble-v1")
 MAX_IMAGE_BYTES = 12 * 1024 * 1024
 MAX_PIXELS = 40_000_000
 input_size = 224
@@ -54,20 +56,41 @@ class AnalysisJob(BaseModel):
     analysis_id: str
     case_id: str
     image_key: str = Field(min_length=1, max_length=500)
-    mime_type: str = Field(pattern=r"^image/(jpeg|png|webp)$")
+    mime_type: str = Field(pattern=r"^image/(jpeg|png|webp|jpg)$")
     gradcam_key: str = Field(min_length=1, max_length=500)
     callback_url: HttpUrl
 
 
 def load_model() -> None:
-    global models, model_threshold, input_size, mean, std, jpeg_tables, jpeg_sampling
+    global models, model_threshold, input_size, mean, std, jpeg_tables, jpeg_sampling, model_arch, MODEL_NAME, MODEL_PATH
     if not os.path.isfile(MODEL_PATH):
-        raise RuntimeError(f"Không tìm thấy checkpoint: {MODEL_PATH}")
+        # Try to download from Hugging Face Hub if repository info provided
+        hf_repo = os.getenv("HF_MODEL_REPO")
+        hf_token = os.getenv("HF_MODEL_TOKEN")
+        if hf_repo:
+            try:
+                local_path = hf_hub_download(
+                    repo_id=hf_repo,
+                    filename=MODEL_PATH,
+                    token=hf_token,
+                )
+                MODEL_PATH = local_path
+                LOGGER.info("Downloaded model checkpoint from HF Hub: %s", MODEL_PATH)
+            except Exception as e:
+                raise RuntimeError(f"Failed to download model from HF Hub: {e}")
+        else:
+            raise RuntimeError(f"Không tìm thấy checkpoint: {MODEL_PATH} và không có cấu hình HF_MODEL_REPO")
+
 
     # weights_only avoids executing arbitrary Python objects embedded in a checkpoint.
     checkpoint: dict[str, Any] = torch.load(MODEL_PATH, map_location="cpu", weights_only=True)
-    if checkpoint.get("arch") != "resnest26d" or checkpoint.get("timm_name") != "resnest26d.gluon_in1k":
-        raise RuntimeError("Checkpoint không đúng kiến trúc ResNeSt-26d đã cấu hình")
+    architectures = {
+        "resnest26d": "resnest26d.gluon_in1k",
+        "convnext_tiny": "convnext_tiny.fb_in1k",
+    }
+    arch = checkpoint.get("arch")
+    if arch not in architectures or checkpoint.get("timm_name") != architectures[arch]:
+        raise RuntimeError("Checkpoint phải là bundle ResNeSt-26d hoặc ConvNeXt-Tiny đúng timm_name")
 
     members = checkpoint.get("members")
     if not isinstance(members, list) or not members or not all(isinstance(member, dict) for member in members):
@@ -94,6 +117,8 @@ def load_model() -> None:
         raise RuntimeError("Checkpoint thiếu bảng JPEG dùng khi huấn luyện")
 
     models = loaded_models
+    model_arch = arch
+    MODEL_NAME = f"{arch}-npc-ensemble"
     model_threshold = threshold
     input_size = size
     mean, std = input_mean, input_std
@@ -135,14 +160,31 @@ def read_image(key: str) -> Image.Image:
     with Image.open(io.BytesIO(data)) as source:
         if source.width * source.height > MAX_PIXELS:
             raise ValueError("Kích thước ảnh vượt giới hạn xử lý")
-        return source.convert("RGB")
+        return ImageOps.exif_transpose(source).convert("RGB")
+
+
+def square_crops(image: Image.Image, crop_scales: tuple[float, ...] = (1.0, 0.8, 0.6), grid: int = 3):
+    """Generate unique square crops with source-image pixel boxes."""
+    image = ImageOps.exif_transpose(image).convert("RGB")
+    width, height = image.size
+    side = min(width, height)
+    found: dict[tuple[int, int, int, int], Image.Image] = {}
+    for scale in crop_scales:
+        length = max(1, min(side, round(side * float(scale))))
+        xs = np.linspace(0, width - length, grid).round().astype(int)
+        ys = np.linspace(0, height - length, grid).round().astype(int)
+        offsets = {(int(x), int(y)) for y in ys for x in xs}
+        offsets.add(((width - length) // 2, (height - length) // 2))
+        for left, top in sorted(offsets):
+            box = (left, top, left + length, top + length)
+            found.setdefault(box, image.crop(box))
+    return [(crop, box) for box, crop in found.items()]
 
 
 def preprocess_image(image: Image.Image) -> tuple[Image.Image, torch.Tensor]:
     processed = ImageOps.exif_transpose(image).convert("RGB")
     if processed.size != (input_size, input_size):
         processed = processed.resize((input_size, input_size), Image.Resampling.BICUBIC)
-
     encoded = io.BytesIO()
     processed.save(encoded, format="JPEG", qtables=jpeg_tables, subsampling=jpeg_sampling)
     encoded.seek(0)
@@ -151,7 +193,6 @@ def preprocess_image(image: Image.Image) -> tuple[Image.Image, torch.Tensor]:
     tensor = (pixels - mean) / std
     return processed, torch.from_numpy(tensor).permute(2, 0, 1).unsqueeze(0).to(DEVICE)
 
-
 def gradcam_png(image: Image.Image, input_tensor: torch.Tensor) -> tuple[bytes, float]:
     if not models:
         raise RuntimeError("Model chưa sẵn sàng")
@@ -159,7 +200,10 @@ def gradcam_png(image: Image.Image, input_tensor: torch.Tensor) -> tuple[bytes, 
     gradients: list[torch.Tensor | None] = [None] * len(models)
     hooks = []
     for index, network in enumerate(models):
-        target = network.layer4[-1]
+        if model_arch == "convnext_tiny":
+            target = network.stages[-1]
+        else:
+            target = network.layer4[-1]
 
         def save_activation(_module: torch.nn.Module, _inputs: tuple[torch.Tensor, ...], output: torch.Tensor, i: int = index) -> None:
             activations[i] = output
@@ -207,19 +251,37 @@ def gradcam_png(image: Image.Image, input_tensor: torch.Tensor) -> tuple[bytes, 
             hook.remove()
 
 
-def predict(image: Image.Image) -> tuple[float, bytes]:
+def predict(image: Image.Image) -> tuple[float, bytes, dict[str, Any]]:
+    """Score square multi-crops and Grad-CAM the highest class-1 probability crop."""
     if not models:
         raise RuntimeError("Model chưa sẵn sàng")
+    oriented = ImageOps.exif_transpose(image).convert("RGB")
+    views = square_crops(oriented, crop_scales=(1.0, 0.8, 0.6), grid=3)
     with model_lock:
-        processed, input_tensor = preprocess_image(image)
-        heatmap, probability = gradcam_png(processed, input_tensor)
-    return probability, heatmap
-
+        processed_views = [preprocess_image(crop) for crop, _box in views]
+        tensors = torch.cat([tensor for _processed, tensor in processed_views], dim=0)
+        probabilities = []
+        with torch.no_grad():
+            for start in range(0, len(tensors), 8):
+                batch = tensors[start:start + 8]
+                member_probs = torch.stack([torch.sigmoid(network(batch).reshape(-1)) for network in models])
+                probabilities.extend(member_probs.mean(dim=0).cpu().tolist())
+        ranked = sorted(
+            ({"box": list(box), "probability": float(prob), "label": int(float(prob) >= model_threshold)}
+             for (_crop, box), prob in zip(views, probabilities, strict=True)),
+            key=lambda item: item["probability"], reverse=True,
+        )
+        best = ranked[0]
+        best_index = next(i for i, (_crop, box) in enumerate(views) if list(box) == best["box"])
+        processed, input_tensor = processed_views[best_index]
+        heatmap, cam_probability = gradcam_png(processed, input_tensor)
+    details = {"best_crop": best, "crops": ranked, "gradcam_probability": cam_probability}
+    return best["probability"], heatmap, details
 
 def process_job(job: AnalysisJob) -> None:
     try:
         image = read_image(job.image_key)
-        probability, heatmap = predict(image)
+        probability, heatmap, crop_details = predict(image)
         s3.put_object(Bucket=bucket, Key=job.gradcam_key, Body=heatmap, ContentType="image/png")
         payload = {
             "analysis_id": job.analysis_id,
@@ -230,7 +292,14 @@ def process_job(job: AnalysisJob) -> None:
             "probabilities": {"malignant": probability, "benign": 1.0 - probability},
             "risk_score": round(probability * 100, 4),
             "gradcam_key": job.gradcam_key,
-            "raw_output": {"threshold": model_threshold, "ensemble_members": len(models), "aggregation": "soft_voting"},
+            "raw_output": {
+                "threshold": model_threshold,
+                "ensemble_members": len(models),
+                "aggregation": "soft_voting_max_over_square_multicrops",
+                "best_crop": crop_details["best_crop"],
+                "crops": crop_details["crops"],
+                "gradcam_probability": crop_details["gradcam_probability"],
+            },
         }
     except Exception as exc:
         LOGGER.exception("Analysis failed: %s", job.analysis_id)
